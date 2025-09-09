@@ -108,7 +108,8 @@
         <section id="sobre" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <img src="https://iili.io/KxM6Hru.png" alt="Logo Moritz em fundo preto" class="rounded-lg shadow-2xl mx-auto">
+                    <!-- LOGO SEM FUNDO -->
+                    <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="rounded-lg shadow-2xl mx-auto w-2/3">
                 </div>
                 <div class="text-center md:text-left">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Somos a Moritz</h2>
@@ -250,23 +251,35 @@
                 const textGeometry = new TextGeometry('Moritz', {
                     font: font,
                     size: 1.2,
-                    height: 0.4,
+                    height: 0.2, 
                     curveSegments: 12,
                     bevelEnabled: true,
                     bevelThickness: 0.03,
-                    bevelSize: 0.02,
+                    bevelSize: 0.05,
                     bevelOffset: 0,
                     bevelSegments: 5
                 });
 
                 textGeometry.center();
                 
-                const material = new THREE.MeshStandardMaterial({ 
+                const frontMaterial = new THREE.MeshStandardMaterial({ 
                     color: 0xffffff,
                     metalness: 0.8,
                     roughness: 0.2
                 });
-                textMesh = new THREE.Mesh(textGeometry, material);
+                const sideMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x000000, 
+                    metalness: 0.8,
+                    roughness: 0.2
+                });
+
+                textGeometry.groups.forEach((group, i) => {
+                    group.materialIndex = i === 1 ? 1 : 0;
+                });
+
+                const materials = [frontMaterial, sideMaterial];
+                textMesh = new THREE.Mesh(textGeometry, materials);
+
                 scene.add(textMesh);
             }
             
@@ -303,7 +316,8 @@
                 pointLight.position.set(5, 5, 5);
                 scene.add(pointLight);
                 
-                const customFontUrl = 'https://files.catbox.moe/ueihle.json';
+                // --- Carregando sua fonte via Catbox ---
+                const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 
                 fontLoader.load(
                     customFontUrl,
@@ -311,8 +325,7 @@
                     undefined,     // On Progress
                     (error) => {   // On Error
                         console.error(`Falha ao carregar a fonte personalizada de: ${customFontUrl}`, error);
-                        console.log("Carregando uma fonte de reserva para garantir a visualização.");
-                        // Fallback: Carrega uma fonte padrão se a sua falhar
+                        // Fallback para garantir que o site nunca fique com a tela preta
                         fontLoader.load(
                             'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/droid/droid_serif_bold.typeface.json',
                             createTextMesh
