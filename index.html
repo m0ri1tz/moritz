@@ -37,6 +37,7 @@
         #hero {
             background-color: #000000;
         }
+        /* Efeito Paralaxe para Desktop */
         #parallax-section {
             background-image: url('https://iili.io/KxpaMW7.png');
             background-attachment: fixed;
@@ -44,9 +45,12 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        /* Correção para Mobile: transforma o paralaxe num fundo normal */
         @media (max-width: 1024px) {
             #parallax-section {
-                background-attachment: scroll;
+                background-image: none;
+                background-color: #111111;
+                height: 10rem;
             }
         }
         .glass-effect {
@@ -99,7 +103,7 @@
     <!-- Header (agora apenas para telemóvel) -->
     <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect md:hidden">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#hero" class="z-10">
+            <a href="#" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
             <nav id="mobile-nav" class="flex items-center space-x-2 sm:space-x-4">
@@ -112,14 +116,14 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section id="hero" class="h-screen w-full relative flex items-center justify-center text-center">
+        <!-- Hero Section (Apenas para Desktop) -->
+        <section id="hero" class="h-screen w-full relative hidden md:flex items-center justify-center text-center">
             <!-- Canvas para Desktop -->
             <div id="hero-canvas-container" class="absolute inset-0">
                 <canvas id="hero-canvas"></canvas>
             </div>
             <!-- Menu Interativo (Apenas para Desktop) -->
-            <div id="hero-menu" class="absolute hidden md:flex items-center justify-center w-1/2 h-full right-0">
+            <div id="hero-menu" class="absolute flex items-center justify-center w-1/2 h-full right-0">
                 <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-400">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
                     <a href="#servicos" class="hero-menu-link" style="transition-delay: 200ms;">Serviços</a>
@@ -236,14 +240,12 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             // Correção robusta do scroll ao carregar
-            if (history.scrollRestoration) {
-                history.scrollRestoration = 'manual';
-            }
-            // Remove o hash da URL sem recarregar e rola para o topo
-            if (location.hash) {
-                history.pushState("", document.title, window.location.pathname + window.location.search);
-            }
-            setTimeout(() => window.scrollTo(0, 0), 1);
+            window.addEventListener('load', () => {
+                if (history.scrollRestoration) {
+                    history.scrollRestoration = 'manual';
+                }
+                setTimeout(() => window.scrollTo(0, 0), 10);
+            });
 
 
             // --- Intersection Observer Logic ---
@@ -260,7 +262,7 @@
 
             if (isMobile) {
                 heroSection.style.display = 'none';
-                sobreSection.style.paddingTop = '8rem'; // Adiciona espaço para o header fixo
+                sobreSection.style.paddingTop = '8rem';
                 return;
             }
 
@@ -363,9 +365,7 @@
             }
 
             function onWindowResize() {
-                // Previne a execução em mobile onde a cena 3D não existe
                 if (isMobile) return;
-
                 camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
