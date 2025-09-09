@@ -247,7 +247,9 @@
         }
         
         function initThreeJS() {
+            console.log("Iniciando Three.js..."); // Para depuração
             scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0A0A0A); // Adicionado para garantir o fundo
         
             const fov = 75;
             const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
@@ -259,7 +261,7 @@
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
                 antialias: true,
-                alpha: true
+                // alpha: true // Removido alpha para usar o fundo da cena
             });
             renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
