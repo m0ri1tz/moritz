@@ -29,6 +29,10 @@
             display: block;
             width: 100%;
             height: 100%;
+            cursor: grab;
+        }
+        #hero-canvas:active {
+            cursor: grabbing;
         }
         .glass-effect {
             background: rgba(16, 16, 16, 0.6);
@@ -241,8 +245,9 @@
                 observer.observe(section);
             });
 
-            // --- Three.js 3D Text Logic ---
-            let scene, camera, renderer, textMesh, controls;
+            // --- Three.js 3D Scene Logic ---
+            let scene, camera, renderer, textMesh, cityGroup, controls;
+
             const canvasContainer = document.getElementById('hero-canvas-container');
             const canvas = document.getElementById('hero-canvas');
             const fontLoader = new FontLoader();
@@ -272,20 +277,60 @@
                     metalness: 0.8,
                     roughness: 0.2
                 });
-
-                textGeometry.groups.forEach((group, i) => {
-                    group.materialIndex = i === 1 ? 1 : 0;
-                });
-
+                
                 const materials = [frontMaterial, sideMaterial];
                 textMesh = new THREE.Mesh(textGeometry, materials);
 
                 scene.add(textMesh);
             }
+
+            function createCity() {
+                cityGroup = new THREE.Group();
+                const buildingMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x1a1a1a,
+                    metalness: 0.9,
+                    roughness: 0.3
+                });
+                const glowingMaterialPurple = new THREE.MeshStandardMaterial({
+                    color: 0x8A2BE2,
+                    emissive: 0x8A2BE2, 
+                    emissiveIntensity: 2
+                });
+                 const glowingMaterialRed = new THREE.MeshStandardMaterial({
+                    color: 0xFF0000,
+                    emissive: 0xFF0000, 
+                    emissiveIntensity: 2
+                });
+
+                for (let i = 0; i < 150; i++) { // Mais prédios para preencher a cena
+                    const height = Math.random() * 10 + 2;
+                    // Prédios com larguras e profundidades variadas
+                    const geometry = new THREE.BoxGeometry(Math.random() * 1.5 + 0.5, height, Math.random() * 1.5 + 0.5);
+                    
+                    let building;
+                    const rand = Math.random();
+                    if (rand > 0.95) {
+                        building = new THREE.Mesh(geometry, glowingMaterialPurple);
+                    } else if (rand > 0.9) {
+                        building = new THREE.Mesh(geometry, glowingMaterialRed);
+                    } else {
+                        building = new THREE.Mesh(geometry, buildingMaterial);
+                    }
+                    
+                    // Posicionar prédios mais para trás
+                    building.position.x = (Math.random() - 0.5) * 80;
+                    building.position.z = (Math.random() - 0.5) * 80 - 15;
+                    building.position.y = height / 2;
+                    
+                    cityGroup.add(building);
+                }
+                scene.add(cityGroup);
+            }
             
             function initThreeJS() {
                 scene = new THREE.Scene();
                 scene.background = new THREE.Color(0x0A0A0A);
+                scene.fog = new THREE.Fog(0x0A0A0A, 10, 50);
             
                 const fov = 75;
                 const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
@@ -293,7 +338,7 @@
                 const far = 1000;
                 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
                 camera.position.z = 5;
-                camera.position.y = 0.2; 
+                camera.position.y = 0.5; 
             
                 renderer = new THREE.WebGLRenderer({
                     canvas: canvas,
@@ -302,34 +347,30 @@
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+                // --- NOVO: Controles reativados para rotação manual ---
                 controls = new OrbitControls(camera, renderer.domElement);
                 controls.enableDamping = true;
                 controls.enablePan = false;
                 controls.enableZoom = false;
-                controls.minPolarAngle = Math.PI / 3;
-                controls.maxPolarAngle = 2 * Math.PI / 3;
+                controls.autoRotate = true; // Rotação automática sutil
+                controls.autoRotateSpeed = 0.2;
+                controls.enableRotate = true; // Rotação manual com mouse/toque ativada
 
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
                 
-                const pointLight = new THREE.PointLight(0xffffff, 2.0);
-                pointLight.position.set(5, 5, 5);
+                const pointLight = new THREE.PointLight(0xffffff, 1.5);
+                pointLight.position.set(2, 3, 5);
                 scene.add(pointLight);
                 
-                // --- Carregando sua fonte via Catbox ---
+                createCity();
+                
                 const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 
-                fontLoader.load(
-                    customFontUrl,
-                    createTextMesh, // On Success
-                    undefined,     // On Progress
-                    (error) => {   // On Error
-                        console.error(`Falha ao carregar a fonte personalizada de: ${customFontUrl}`, error);
-                        // Fallback para garantir que o site nunca fique com a tela preta
-                        fontLoader.load(
-                            'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/droid/droid_serif_bold.typeface.json',
-                            createTextMesh
-                        );
+                fontLoader.load(customFontUrl, createTextMesh, undefined, 
+                    (error) => {
+                        console.error(`Falha ao carregar a fonte personalizada:`, error);
+                        fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/droid/droid_serif_bold.typeface.json', createTextMesh);
                     }
                 );
 
@@ -346,10 +387,7 @@
 
             function animate() {
                 requestAnimationFrame(animate);
-                if (textMesh) {
-                    textMesh.rotation.y += 0.001; 
-                }
-                controls.update();
+                controls.update(); // Necessário para damping e auto-rotação
                 renderer.render(scene, camera);
             }
 
