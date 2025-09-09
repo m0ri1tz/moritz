@@ -102,7 +102,7 @@
             <a href="#hero" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <!-- NOVO: Navegação apenas para telemóvel -->
+            <!-- Navegação apenas para telemóvel -->
             <nav id="mobile-nav" class="flex md:hidden items-center space-x-4">
                 <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-sm">Sobre</a>
                 <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-sm">Serviços</a>
@@ -239,7 +239,10 @@
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
         
         document.addEventListener('DOMContentLoaded', () => {
-            // --- NOVO: Correção do scroll ao carregar ---
+            // Correção do scroll ao carregar
+            if (window.history.scrollRestoration) {
+                window.history.scrollRestoration = 'manual';
+            }
             window.scrollTo(0, 0);
 
             // --- Intersection Observer Logic ---
@@ -269,6 +272,8 @@
             let isMenuOpen = false;
             const centerPosition = new THREE.Vector3(0, 0, 0);
             const menuPosition = new THREE.Vector3(-3, 0, 0);
+            const centerScale = new THREE.Vector3(1, 1, 1);
+            const menuScale = new THREE.Vector3(0.8, 0.8, 0.8);
             const arrowTargetPosition = new THREE.Vector3();
 
             function createTextMesh(font) {
@@ -289,12 +294,11 @@
                 const shape = new THREE.Shape();
                 shape.moveTo(0, 0.1); shape.lineTo(0.2, 0); shape.lineTo(0, -0.1); shape.lineTo(0, 0.1);
                 const geometry = new THREE.ShapeGeometry(shape);
-                // --- NOVO: Correção da seta ---
                 const material = new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false });
                 arrowMesh = new THREE.Mesh(geometry, material);
-                arrowMesh.position.set(-1.5, 0, 0.1); // Posição Z ligeiramente à frente
+                arrowMesh.position.set(-1.5, 0, 0.1);
                 arrowMesh.visible = false;
-                arrowMesh.renderOrder = 999; // Garante que é renderizada por último
+                arrowMesh.renderOrder = 999;
                 scene.add(arrowMesh);
             }
 
@@ -368,7 +372,9 @@
 
                 if (textMesh) {
                     const targetPosition = isMenuOpen ? menuPosition : centerPosition;
+                    const targetScale = isMenuOpen ? menuScale : centerScale;
                     textMesh.position.lerp(targetPosition, 0.08);
+                    textMesh.scale.lerp(targetScale, 0.08); // Animação da escala
                 }
                 if (arrowMesh) {
                     arrowTargetPosition.x = textMesh.position.x + 1.8;
