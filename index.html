@@ -34,8 +34,19 @@
         #hero-canvas:active {
             cursor: grabbing;
         }
+        #hero {
+            background-color: #000000;
+        }
+        #parallax-section {
+            background-image: url('https://iili.io/KxpaMW7.png');
+            background-attachment: fixed;
+            /* CORREÇÃO: Centralizado para evitar bordas */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
         .glass-effect {
-            background: rgba(16, 16, 16, 0.6);
+            background: rgba(10, 10, 10, 0.5);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -71,25 +82,21 @@
     <!-- Header -->
     <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <!-- Logo -->
             <a href="#hero" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <!-- Desktop Navigation -->
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#sobre" class="text-gray-300 hover:text-white nav-link">Sobre</a>
                 <a href="#servicos" class="text-gray-300 hover:text-white nav-link">Serviços</a>
                 <a href="#portfolio" class="text-gray-300 hover:text-white nav-link">Portfólio</a>
                 <a href="#contato" class="text-gray-300 hover:text-white nav-link">Contato</a>
             </nav>
-            <!-- Mobile Menu Button (Hamburger) -->
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-white focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </div>
-         <!-- Mobile Menu (Initially hidden) -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass-effect">
             <nav class="flex flex-col items-center space-y-4 py-4">
                 <a href="#sobre" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Sobre</a>
@@ -112,7 +119,6 @@
         <section id="sobre" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <!-- LOGO SEM FUNDO -->
                     <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="rounded-lg shadow-2xl mx-auto w-2/3">
                 </div>
                 <div class="text-center md:text-left">
@@ -122,7 +128,10 @@
                 </div>
             </div>
         </section>
-
+        
+        <!-- Secção de Imagem com Paralaxe -->
+        <section id="parallax-section" class="h-96"></section>
+        
         <!-- Serviços -->
         <section id="servicos" class="py-20 md:py-32 bg-[#111111] section">
             <div class="container mx-auto px-6">
@@ -155,24 +164,22 @@
                     <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Confira alguns dos trabalhos que nos enchem de orgulho.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Projeto 1 -->
                     <div class="rounded-lg overflow-hidden border border-gray-800 flex flex-col">
                         <div class="p-4 bg-[#111111] border-b border-gray-800">
-                             <h3 class="text-xl font-bold text-white">Nome do Projeto 1</h3>
-                             <p class="text-sm text-gray-400 mt-1">Troque o link no `src` abaixo para exibir seu site.</p>
+                             <h3 class="text-xl font-bold text-white">Animale</h3>
+                             <p class="text-sm text-gray-400 mt-1">Site de moda e vestuário.</p>
                         </div>
                         <div class="aspect-video bg-black flex-grow">
-                             <iframe src="https://pt.wikipedia.org/wiki/Lavras_(Minas_Gerais)" class="w-full h-full border-0" title="Demonstração do Projeto 1"></iframe>
+                             <iframe src="https://www.animale.com.br/" class="w-full h-full border-0" title="Demonstração do site Animale"></iframe>
                         </div>
                     </div>
-                    <!-- Projeto 2 -->
                     <div class="rounded-lg overflow-hidden border border-gray-800 flex flex-col">
                         <div class="p-4 bg-[#111111] border-b border-gray-800">
-                             <h3 class="text-xl font-bold text-white">Nome do Projeto 2</h3>
-                             <p class="text-sm text-gray-400 mt-1">Troque o link no `src` abaixo para exibir seu site.</p>
+                             <h3 class="text-xl font-bold text-white">M·A·C Cosmetics</h3>
+                             <p class="text-sm text-gray-400 mt-1">E-commerce de cosméticos.</p>
                         </div>
                         <div class="aspect-video bg-black flex-grow">
-                            <iframe src="https://pt.wikipedia.org/wiki/Design_responsivo" class="w-full h-full border-0" title="Demonstração do Projeto 2"></iframe>
+                            <iframe src="https://www.maccosmetics.com.br/" class="w-full h-full border-0" title="Demonstração do site M·A·C Cosmetics"></iframe>
                         </div>
                     </div>
                 </div>
@@ -219,44 +226,31 @@
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            mobileNavLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
 
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // --- Intersection Observer for scroll animations ---
+            // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
+            }, { threshold: 0.1 });
+            sections.forEach(section => { observer.observe(section); });
 
             // --- Three.js 3D Scene Logic ---
-            let scene, camera, renderer, textMesh, cityGroup, controls;
-
+            let scene, camera, renderer, textMesh, controls;
             const canvasContainer = document.getElementById('hero-canvas-container');
             const canvas = document.getElementById('hero-canvas');
             const fontLoader = new FontLoader();
+            const clock = new THREE.Clock();
+            
+            let meteors = new THREE.Group();
+            let lastMeteorTime = 0;
 
             function createTextMesh(font) {
-                const textGeometry = new TextGeometry('Moritz', {
+                const textGeometry = new TextGeometry('M', {
                     font: font,
-                    size: 1.2,
-                    height: 0.2, 
+                    size: 3.0,
+                    height: 0.5,
                     curveSegments: 12,
                     bevelEnabled: true,
                     bevelThickness: 0.03,
@@ -264,7 +258,6 @@
                     bevelOffset: 0,
                     bevelSegments: 5
                 });
-
                 textGeometry.center();
                 
                 const frontMaterial = new THREE.MeshStandardMaterial({ 
@@ -280,57 +273,35 @@
                 
                 const materials = [frontMaterial, sideMaterial];
                 textMesh = new THREE.Mesh(textGeometry, materials);
-
+                
                 scene.add(textMesh);
             }
 
-            function createCity() {
-                cityGroup = new THREE.Group();
-                const buildingMaterial = new THREE.MeshStandardMaterial({
-                    color: 0x1a1a1a,
-                    metalness: 0.9,
-                    roughness: 0.3
-                });
-                const glowingMaterialPurple = new THREE.MeshStandardMaterial({
-                    color: 0x8A2BE2,
-                    emissive: 0x8A2BE2, 
-                    emissiveIntensity: 2
-                });
-                 const glowingMaterialRed = new THREE.MeshStandardMaterial({
-                    color: 0xFF0000,
-                    emissive: 0xFF0000, 
-                    emissiveIntensity: 2
-                });
+            function createMeteor() {
+                const material = new THREE.LineBasicMaterial({ color: 0xaaaaaa, transparent: true, opacity: 0.7 });
+                const points = [];
+                const length = 2.0 + Math.random() * 2;
+                points.push( new THREE.Vector3( 0, 0, 0 ) );
+                points.push( new THREE.Vector3( 0, -length, 0 ) );
+                const geometry = new THREE.BufferGeometry().setFromPoints( points );
+                const meteor = new THREE.Line( geometry, material );
 
-                for (let i = 0; i < 150; i++) { // Mais prédios para preencher a cena
-                    const height = Math.random() * 10 + 2;
-                    // Prédios com larguras e profundidades variadas
-                    const geometry = new THREE.BoxGeometry(Math.random() * 1.5 + 0.5, height, Math.random() * 1.5 + 0.5);
-                    
-                    let building;
-                    const rand = Math.random();
-                    if (rand > 0.95) {
-                        building = new THREE.Mesh(geometry, glowingMaterialPurple);
-                    } else if (rand > 0.9) {
-                        building = new THREE.Mesh(geometry, glowingMaterialRed);
-                    } else {
-                        building = new THREE.Mesh(geometry, buildingMaterial);
-                    }
-                    
-                    // Posicionar prédios mais para trás
-                    building.position.x = (Math.random() - 0.5) * 80;
-                    building.position.z = (Math.random() - 0.5) * 80 - 15;
-                    building.position.y = height / 2;
-                    
-                    cityGroup.add(building);
-                }
-                scene.add(cityGroup);
+                meteor.position.x = (Math.random() - 0.5) * 30;
+                meteor.position.y = 10;
+                meteor.position.z = (Math.random() - 0.5) * 10;
+
+                meteor.userData.velocity = new THREE.Vector3(
+                    0,
+                    -0.15 - Math.random() * 0.1,
+                    0
+                );
+
+                meteors.add(meteor);
             }
-            
+
             function initThreeJS() {
                 scene = new THREE.Scene();
-                scene.background = new THREE.Color(0x0A0A0A);
-                scene.fog = new THREE.Fog(0x0A0A0A, 10, 50);
+                scene.add(meteors);
             
                 const fov = 75;
                 const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
@@ -338,32 +309,30 @@
                 const far = 1000;
                 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
                 camera.position.z = 5;
-                camera.position.y = 0.5; 
             
                 renderer = new THREE.WebGLRenderer({
                     canvas: canvas,
                     antialias: true,
+                    alpha: true
                 });
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-                // --- NOVO: Controles reativados para rotação manual ---
                 controls = new OrbitControls(camera, renderer.domElement);
                 controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
                 controls.enablePan = false;
                 controls.enableZoom = false;
-                controls.autoRotate = true; // Rotação automática sutil
+                controls.autoRotate = true; 
                 controls.autoRotateSpeed = 0.2;
-                controls.enableRotate = true; // Rotação manual com mouse/toque ativada
+                controls.enableRotate = true;
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
-                
-                const pointLight = new THREE.PointLight(0xffffff, 1.5);
-                pointLight.position.set(2, 3, 5);
+
+                const pointLight = new THREE.PointLight(0xffffff, 1.0);
+                pointLight.position.set(2, 4, 5);
                 scene.add(pointLight);
-                
-                createCity();
                 
                 const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 
@@ -387,7 +356,24 @@
 
             function animate() {
                 requestAnimationFrame(animate);
-                controls.update(); // Necessário para damping e auto-rotação
+                const elapsedTime = clock.getElapsedTime();
+
+                if (elapsedTime - lastMeteorTime > Math.random() * 2 + 0.5) {
+                    createMeteor();
+                    lastMeteorTime = elapsedTime;
+                }
+
+                for (let i = meteors.children.length - 1; i >= 0; i--) {
+                    const meteor = meteors.children[i];
+                    meteor.position.add(meteor.userData.velocity);
+                    if (meteor.position.y < -10) {
+                        meteor.geometry.dispose();
+                        meteor.material.dispose();
+                        meteors.remove(meteor);
+                    }
+                }
+
+                controls.update();
                 renderer.render(scene, camera);
             }
 
