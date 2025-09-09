@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="https://iili.io/KxM6lEX.png" type="image/png">
     <style>
-        /* Adicionado para rolagem suave */
         html {
             scroll-behavior: smooth;
         }
@@ -38,7 +37,6 @@
         #hero {
             background-color: #000000;
         }
-        /* Efeito Paralaxe para Desktop */
         #parallax-section {
             background-image: url('https://iili.io/KxpaMW7.png');
             background-attachment: fixed;
@@ -46,7 +44,6 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        /* Correção para Mobile: transforma o paralaxe num fundo normal */
         @media (max-width: 1024px) {
             #parallax-section {
                 background-attachment: scroll;
@@ -82,15 +79,14 @@
         .nav-link:hover::after {
             width: 100%;
         }
-        /* Estilos para o novo menu interativo */
         .hero-menu-link {
             transition: transform 0.3s ease, color 0.3s ease, opacity 0.5s ease;
             opacity: 0;
-            pointer-events: none; /* Desativado por padrão */
+            pointer-events: none;
         }
         #hero-menu.active .hero-menu-link {
             opacity: 1;
-            pointer-events: auto; /* Ativado quando o menu está ativo */
+            pointer-events: auto;
         }
         .hero-menu-link:hover {
             transform: translateX(10px);
@@ -106,12 +102,12 @@
             <a href="#hero" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <!-- Menu de navegação agora visível em todos os tamanhos -->
-            <nav class="flex items-center space-x-8">
-                <a href="#sobre" class="text-gray-300 hover:text-white nav-link hidden sm:inline">Sobre</a>
-                <a href="#servicos" class="text-gray-300 hover:text-white nav-link hidden sm:inline">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link hidden sm:inline">Portfólio</a>
-                <a href="#contato" class="text-gray-300 hover:text-white nav-link">Contato</a>
+            <!-- NOVO: Navegação apenas para telemóvel -->
+            <nav id="mobile-nav" class="flex md:hidden items-center space-x-4">
+                <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-sm">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-sm">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link text-sm">Portfólio</a>
+                <a href="#contato" class="text-gray-300 hover:text-white nav-link text-sm">Contato</a>
             </nav>
         </div>
     </header>
@@ -126,8 +122,8 @@
             <div id="hero-mobile-fallback" class="hidden justify-center items-center h-full w-full">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-32 w-auto animate-pulse">
             </div>
-            <!-- Novo Menu Interativo -->
-            <div id="hero-menu" class="absolute flex items-center justify-center w-1/2 h-full right-0">
+            <!-- Novo Menu Interativo (Apenas para Desktop) -->
+            <div id="hero-menu" class="absolute hidden md:flex items-center justify-center w-1/2 h-full right-0">
                 <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-400">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
                     <a href="#servicos" class="hero-menu-link" style="transition-delay: 200ms;">Serviços</a>
@@ -160,7 +156,7 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Nossas Soluções</h2>
                     <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Oferecemos uma gama completa de serviços para garantir que seu projeto seja um sucesso.</p>
                 </div>
-                <div class="grid md:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300">
                         <h3 class="text-2xl font-bold text-white">Desenvolvimento Web</h3>
                         <p class="mt-4 text-gray-400">Criação de sites institucionais, landing pages e e-commerces totalmente responsivos e otimizados para performance.</p>
@@ -243,6 +239,9 @@
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
         
         document.addEventListener('DOMContentLoaded', () => {
+            // --- NOVO: Correção do scroll ao carregar ---
+            window.scrollTo(0, 0);
+
             // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
             const observer = new IntersectionObserver((entries) => {
@@ -274,15 +273,8 @@
 
             function createTextMesh(font) {
                 const textGeometry = new TextGeometry('M', {
-                    font: font,
-                    size: 3.0,
-                    height: 0.5,
-                    curveSegments: 12,
-                    bevelEnabled: true,
-                    bevelThickness: 0.03,
-                    bevelSize: 0.05,
-                    bevelOffset: 0,
-                    bevelSegments: 5
+                    font: font, size: 3.0, height: 0.5, curveSegments: 12, bevelEnabled: true,
+                    bevelThickness: 0.03, bevelSize: 0.05, bevelOffset: 0, bevelSegments: 5
                 });
                 textGeometry.center();
                 
@@ -295,15 +287,14 @@
 
             function createArrow() {
                 const shape = new THREE.Shape();
-                shape.moveTo(0, 0.1);
-                shape.lineTo(0.2, 0);
-                shape.lineTo(0, -0.1);
-                shape.lineTo(0, 0.1);
+                shape.moveTo(0, 0.1); shape.lineTo(0.2, 0); shape.lineTo(0, -0.1); shape.lineTo(0, 0.1);
                 const geometry = new THREE.ShapeGeometry(shape);
-                const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                // --- NOVO: Correção da seta ---
+                const material = new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false });
                 arrowMesh = new THREE.Mesh(geometry, material);
-                arrowMesh.position.set(-1.5, 0, 0);
+                arrowMesh.position.set(-1.5, 0, 0.1); // Posição Z ligeiramente à frente
                 arrowMesh.visible = false;
+                arrowMesh.renderOrder = 999; // Garante que é renderizada por último
                 scene.add(arrowMesh);
             }
 
@@ -321,12 +312,9 @@
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
                 controls = new OrbitControls(camera, renderer.domElement);
-                controls.enableDamping = true;
-                controls.dampingFactor = 0.05;
-                controls.enablePan = false;
-                controls.enableZoom = false;
-                controls.autoRotate = true; 
-                controls.autoRotateSpeed = 0.2;
+                controls.enableDamping = true; controls.dampingFactor = 0.05;
+                controls.enablePan = false; controls.enableZoom = false;
+                controls.autoRotate = true; controls.autoRotateSpeed = 0.2;
                 controls.enableRotate = true;
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -383,7 +371,6 @@
                     textMesh.position.lerp(targetPosition, 0.08);
                 }
                 if (arrowMesh) {
-                    // Posiciona a seta em relação ao M
                     arrowTargetPosition.x = textMesh.position.x + 1.8;
                     arrowMesh.position.lerp(arrowTargetPosition, 0.1);
                 }
