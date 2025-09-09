@@ -1,1 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moritz - Criação de Sites em Lavras, MG</title>
+    <meta name="description" content="Moritz - Especialistas em criação de sites e soluções digitais em Lavras, MG. Transformamos suas ideias em presença online de impacto.">
+    <meta name="keywords" content="criação de sites, desenvolvimento web, Lavras, MG, design responsivo, e-commerce, SEO, Moritz">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon (using the provided logo) -->
+    <link rel="icon" href="https://iili.io/KxM6lEX.png" type="image/png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #E0E0E0;
+        }
+        /* Custom scrollbar for a more integrated look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            touch-action: none;
+        }
+        .section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .service-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(255, 255, 255, 0.05), 0 10px 10px -5px rgba(255, 255, 255, 0.04);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/30 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="flex items-center">
+                <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#sobre" class="text-gray-300 hover:text-white transition duration-300">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white transition duration-300">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white transition duration-300">Portfólio</a>
+                <a href="#contato" class="text-gray-300 hover:text-white transition duration-300">Contato</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/80">
+            <a href="#sobre" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Sobre</a>
+            <a href="#servicos" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Serviços</a>
+            <a href="#portfolio" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Portfólio</a>
+            <a href="#contato" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Contato</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section with 3D Text -->
+        <section id="hero" class="h-screen w-full relative flex flex-col items-center justify-center text-center">
+            <div id="hero-canvas-container" class="absolute inset-0">
+                <canvas id="hero-canvas"></canvas>
+            </div>
+        </section>
+
+        <!-- Sobre Nós -->
+        <section id="sobre" class="py-20 md:py-32 bg-[#0A0A0A] section">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://iili.io/KxM6Hru.png" alt="Logo Moritz em fundo preto" class="rounded-lg shadow-2xl mx-auto">
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Somos a Moritz</h2>
+                    <p class="text-lg text-gray-400 mb-6">
+                        Com base em Lavras, Minas Gerais, a Moritz nasceu da paixão por tecnologia e design. Somos mais do que uma agência de criação de sites; somos seus parceiros estratégicos no mundo digital. Nossa missão é construir pontes entre sua marca e seu público através de soluções web inovadoras, funcionais e, acima de tudo, eficazes.
+                    </p>
+                    <p class="text-gray-400">
+                        Cada projeto é um universo único. Mergulhamos na essência do seu negócio para entregar um site que não apenas impressiona visualmente, mas que também gera resultados concretos e duradouros.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Serviços -->
+        <section id="servicos" class="py-20 md:py-32 bg-[#0A0A0A] section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nossas Soluções Digitais</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Oferecemos um leque completo de serviços para garantir uma presença online forte e coesa.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="service-card bg-[#111111] p-8 rounded-lg border border-gray-800">
+                        <h3 class="text-xl font-bold text-white mb-3">Desenvolvimento de Sites</h3>
+                        <p class="text-gray-400">Criamos sites institucionais e landing pages responsivas, otimizadas para performance e focadas na experiência do usuário (UX/UI).</p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="service-card bg-[#111111] p-8 rounded-lg border border-gray-800">
+                        <h3 class="text-xl font-bold text-white mb-3">E-commerce Completo</h3>
+                        <p class="text-gray-400">Desenvolvemos lojas virtuais robustas e seguras, com integrações de pagamento e logística, prontas para vender online.</p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="service-card bg-[#111111] p-8 rounded-lg border border-gray-800">
+                        <h3 class="text-xl font-bold text-white mb-3">Otimização SEO</h3>
+                        <p class="text-gray-400">Posicionamos seu site nas primeiras páginas do Google, aumentando a visibilidade e atraindo tráfego orgânico qualificado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfólio -->
+        <section id="portfolio" class="py-20 md:py-32 bg-[#0C0C0C] section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Projetos Recentes</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Confira alguns dos trabalhos que nos enchem de orgulho.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Projeto 1 -->
+                    <div class="rounded-lg overflow-hidden border border-gray-800 flex flex-col">
+                        <div class="p-4 bg-[#111111] border-b border-gray-800">
+                             <h3 class="text-xl font-bold text-white">Nome do Projeto 1</h3>
+                             <p class="text-sm text-gray-400 mt-1">Troque o link no `src` abaixo para exibir seu site.</p>
+                        </div>
+                        <div class="aspect-video bg-black flex-grow">
+                             <!-- IMPORTANTE: Muitos sites bloqueiam a exibição em iframes. Teste o seu link. -->
+                             <iframe src="https://pt.wikipedia.org/wiki/Lavras_(Minas_Gerais)" class="w-full h-full border-0" title="Demonstração do Projeto 1"></iframe>
+                        </div>
+                    </div>
+                    <!-- Projeto 2 -->
+                    <div class="rounded-lg overflow-hidden border border-gray-800 flex flex-col">
+                        <div class="p-4 bg-[#111111] border-b border-gray-800">
+                             <h3 class="text-xl font-bold text-white">Nome do Projeto 2</h3>
+                             <p class="text-sm text-gray-400 mt-1">Troque o link no `src` abaixo para exibir seu site.</p>
+                        </div>
+                        <div class="aspect-video bg-black flex-grow">
+                            <!-- IMPORTANTE: Muitos sites bloqueiam a exibição em iframes. Teste o seu link. -->
+                            <iframe src="https://pt.wikipedia.org/wiki/Design_responsivo" class="w-full h-full border-0" title="Demonstração do Projeto 2"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contato -->
+        <section id="contato" class="py-20 md:py-32 bg-[#0A0A0A] section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Vamos Conversar?</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Envie sua ideia, dúvida ou projeto. Estamos prontos para ajudar a construir seu sucesso digital.</p>
+                </div>
+                <div class="max-w-2xl mx-auto">
+                    <form action="#" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="sr-only">Nome</label>
+                            <input type="text" name="name" id="name" required class="w-full bg-[#111111] border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Seu nome">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input type="email" name="email" id="email" required class="w-full bg-[#111111] border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Seu e-mail">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Mensagem</label>
+                            <textarea name="message" id="message" rows="4" required class="w-full bg-[#111111] border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Sua mensagem"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-white text-black font-bold py-3 px-6 rounded-md hover:bg-gray-200 transition duration-300">
+                                Enviar Mensagem
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0C0C0C] border-t border-gray-800">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; <span id="current-year"></span> Moritz. Todos os direitos reservados.</p>
+            <p class="text-sm">Desenvolvido com paixão em Lavras, MG.</p>
+        </div>
+    </footer>
+
+    <!-- Three.js and dependencies -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+            }
+        }
+    </script>
+    
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+        import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
+        // --- Basic Site Interactivity ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Smooth scroll for nav links & close mobile menu on click
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if(this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Header style change on scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-black/80');
+                    header.classList.remove('bg-black/30');
+                } else {
+                    header.classList.remove('bg-black/80');
+                    header.classList.add('bg-black/30');
+                }
+            });
+            
+            // Scroll-triggered animations for sections
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // --- Three.js 3D Text Logic ---
+        let scene, camera, renderer, textMesh, controls;
+        const canvasContainer = document.getElementById('hero-canvas-container');
+        const canvas = document.getElementById('hero-canvas');
+        const fontLoader = new FontLoader();
+
+        function createTextMesh(font) {
+            const textGeometry = new TextGeometry('Moritz', {
+                font: font,
+                size: 1.2,
+                height: 0.2,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 5
+            });
+
+            textGeometry.center(); // Center the geometry
+
+            const material = new THREE.MeshStandardMaterial({ 
+                color: 0xeeeeee,
+                metalness: 0.9,
+                roughness: 0.4
+            });
+            textMesh = new THREE.Mesh(textGeometry, material);
+            scene.add(textMesh);
+        }
+
+        function loadFallbackFont() {
+            console.warn("Fonte personalizada não encontrada. Carregando fonte padrão.");
+            fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/droid/droid_serif_bold.typeface.json', createTextMesh);
+        }
+        
+        function initThreeJS() {
+            // Scene
+            scene = new THREE.Scene();
+        
+            // Camera
+            const fov = 75;
+            const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+            const near = 0.1;
+            const far = 1000;
+            camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+            camera.position.z = 5;
+        
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Controls
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.enablePan = false;
+            controls.enableZoom = false;
+            controls.minPolarAngle = Math.PI / 3;
+            controls.maxPolarAngle = 2 * Math.PI / 3;
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const pointLight = new THREE.PointLight(0xffffff, 1.5);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+            
+            // Load Font and Create Text
+            // IMPORTANTE: Coloque seu arquivo 'Yuji20Boku_Regular.json' na mesma pasta do index.html
+            // ou substitua o nome do arquivo pelo link completo onde ele está hospedado.
+            fontLoader.load(
+                'Yuji20Boku_Regular.json', // <-- COLOQUE AQUI O CAMINHO CORRETO SE NECESSÁRIO
+                createTextMesh, // o que fazer se carregar com sucesso
+                undefined, // callback de progresso
+                (error) => { // o que fazer se der erro
+                    console.error('Erro ao carregar a fonte personalizada:', error);
+                    loadFallbackFont(); // Carrega uma fonte reserva se a sua não for encontrada
+                }
+            );
+
+            // Handle Window Resize
+            window.addEventListener('resize', onWindowResize, false);
+            
+            // Start animation loop
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        }
+        
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            if (textMesh) {
+                // Subtle automatic rotation when not being interacted with
+                if (!controls.state || controls.state === -1) { 
+                    textMesh.rotation.y += 0.002;
+                }
+            }
+            renderer.render(scene, camera);
+        }
+
+        initThreeJS();
+    </script>
+
+</body>
+</html>
+
 
