@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Fonte 3D</title>
+    <style>
+        body { margin: 0; background-color: #000000; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <!-- Three.js Library -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+        import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let scene, camera, renderer, textMesh;
+
+        function init() {
+            // Cena
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000000);
+
+            // Câmara
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Renderer
+            const canvas = document.querySelector('#c');
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Luzes
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1.5);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            // Controles
+            const controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            // Carregador de Fonte
+            const fontLoader = new FontLoader();
+            fontLoader.load(
+                'YujiBoku_Regular.json', // Caminho relativo para a fonte
+                (font) => {
+                    console.log("Fonte carregada com sucesso!");
+                    const textGeometry = new TextGeometry('Moritz', {
+                        font: font,
+                        size: 1.2,
+                        height: 0.2,
+                        curveSegments: 12,
+                        bevelEnabled: true,
+                        bevelThickness: 0.03,
+                        bevelSize: 0.02,
+                        bevelOffset: 0,
+                        bevelSegments: 5
+                    });
+                    textGeometry.center();
+                    const material = new THREE.MeshStandardMaterial({ color: 0xeeeeee });
+                    textMesh = new THREE.Mesh(textGeometry, material);
+                    scene.add(textMesh);
+                },
+                undefined,
+                (error) => {
+                    console.error('ERRO AO CARREGAR A FONTE:', error);
+                }
+            );
+
+            // Loop de Animação
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Responsividade
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
