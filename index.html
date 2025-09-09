@@ -221,7 +221,7 @@
             const textGeometry = new TextGeometry('Moritz', {
                 font: font,
                 size: 1.2,
-                height: 0.2,
+                height: 0.4, // Aumentado para mais profundidade (efeito mais grosso)
                 curveSegments: 12,
                 bevelEnabled: true,
                 bevelThickness: 0.03,
@@ -231,11 +231,12 @@
             });
 
             textGeometry.center();
-
+            
+            // Ajustado para um branco mais visível e metálico
             const material = new THREE.MeshStandardMaterial({ 
-                color: 0xeeeeee,
-                metalness: 0.9,
-                roughness: 0.4
+                color: 0xffffff, // Cor mais clara
+                metalness: 0.8,  // Um pouco menos metálico para refletir mais
+                roughness: 0.2   // Menos áspero para mais brilho
             });
             textMesh = new THREE.Mesh(textGeometry, material);
             scene.add(textMesh);
@@ -251,6 +252,8 @@
             const far = 1000;
             camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
             camera.position.z = 5;
+            // Ajuste na posição Y da câmera para centralizar melhor
+            camera.position.y = 0.2; 
         
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
@@ -266,16 +269,16 @@
             controls.minPolarAngle = Math.PI / 3;
             controls.maxPolarAngle = 2 * Math.PI / 3;
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Luz ambiente um pouco mais forte
             scene.add(ambientLight);
             
-            const pointLight = new THREE.PointLight(0xffffff, 1.5);
+            const pointLight = new THREE.PointLight(0xffffff, 2.0); // Luz principal mais forte
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
             
             // SOLUÇÃO FINAL: Carregando a fonte de um link direto para evitar problemas com o GitHub.
             fontLoader.load(
-                'https://files.catbox.moe/ueihle.json', // <<<----- IMPORTANTE: SUBSTITUA ESTA LINHA
+                'COLE_AQUI_O_SEU_LINK_DO_CATBOX', // <<<----- IMPORTANTE: SUBSTITUA ESTA LINHA
                 createTextMesh,
                 undefined,
                 (error) => {
@@ -297,7 +300,8 @@
         function animate() {
             requestAnimationFrame(animate);
             if (textMesh) {
-                textMesh.rotation.y += 0.002;
+                // Rotação um pouco mais lenta para um efeito mais sutil
+                textMesh.rotation.y += 0.001; 
             }
             controls.update();
             renderer.render(scene, camera);
