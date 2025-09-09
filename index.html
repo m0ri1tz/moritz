@@ -68,15 +68,30 @@
     <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <!-- Logo -->
-            <a href="#hero">
+            <a href="#hero" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <!-- Navigation -->
+            <!-- Desktop Navigation -->
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#sobre" class="text-gray-300 hover:text-white nav-link">Sobre</a>
                 <a href="#servicos" class="text-gray-300 hover:text-white nav-link">Serviços</a>
                 <a href="#portfolio" class="text-gray-300 hover:text-white nav-link">Portfólio</a>
                 <a href="#contato" class="text-gray-300 hover:text-white nav-link">Contato</a>
+            </nav>
+            <!-- Mobile Menu Button (Hamburger) -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+         <!-- Mobile Menu (Initially hidden) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass-effect">
+            <nav class="flex flex-col items-center space-y-4 py-4">
+                <a href="#sobre" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Portfólio</a>
+                <a href="#contato" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Contato</a>
             </nav>
         </div>
     </header>
@@ -142,7 +157,6 @@
                              <p class="text-sm text-gray-400 mt-1">Troque o link no `src` abaixo para exibir seu site.</p>
                         </div>
                         <div class="aspect-video bg-black flex-grow">
-                             <!-- IMPORTANTE: Muitos sites bloqueiam a exibição em iframes. Teste o seu link. -->
                              <iframe src="https://pt.wikipedia.org/wiki/Lavras_(Minas_Gerais)" class="w-full h-full border-0" title="Demonstração do Projeto 1"></iframe>
                         </div>
                     </div>
@@ -153,7 +167,6 @@
                              <p class="text-sm text-gray-400 mt-1">Troque o link no `src` abaixo para exibir seu site.</p>
                         </div>
                         <div class="aspect-video bg-black flex-grow">
-                            <!-- IMPORTANTE: Muitos sites bloqueiam a exibição em iframes. Teste o seu link. -->
                             <iframe src="https://pt.wikipedia.org/wiki/Design_responsivo" class="w-full h-full border-0" title="Demonstração do Projeto 2"></iframe>
                         </div>
                     </div>
@@ -195,122 +208,140 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { FontLoader } from 'three/addons/loaders/FontLoader.js';
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-
-        // --- Intersection Observer for scroll animations ---
-        const sections = document.querySelectorAll('.section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-
-        // --- Three.js 3D Text Logic ---
-        let scene, camera, renderer, textMesh, controls;
-        const canvasContainer = document.getElementById('hero-canvas-container');
-        const canvas = document.getElementById('hero-canvas');
-        const fontLoader = new FontLoader();
-
-        function createTextMesh(font) {
-            const textGeometry = new TextGeometry('Moritz', {
-                font: font,
-                size: 1.2,
-                height: 0.4, // Aumentado para mais profundidade (efeito mais grosso)
-                curveSegments: 12,
-                bevelEnabled: true,
-                bevelThickness: 0.03,
-                bevelSize: 0.02,
-                bevelOffset: 0,
-                bevelSegments: 5
-            });
-
-            textGeometry.center();
-            
-            // Ajustado para um branco mais visível e metálico
-            const material = new THREE.MeshStandardMaterial({ 
-                color: 0xffffff, // Cor mais clara
-                metalness: 0.8,  // Um pouco menos metálico para refletir mais
-                roughness: 0.2   // Menos áspero para mais brilho
-            });
-            textMesh = new THREE.Mesh(textGeometry, material);
-            scene.add(textMesh);
-        }
         
-        function initThreeJS() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0A0A0A);
-        
-            const fov = 75;
-            const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-            const near = 0.1;
-            const far = 1000;
-            camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-            camera.position.z = 5;
-            // Ajuste na posição Y da câmera para centralizar melhor
-            camera.position.y = 0.2; 
-        
-            renderer = new THREE.WebGLRenderer({
-                canvas: canvas,
-                antialias: true,
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
-            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.enablePan = false;
-            controls.enableZoom = false;
-            controls.minPolarAngle = Math.PI / 3;
-            controls.maxPolarAngle = 2 * Math.PI / 3;
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Luz ambiente um pouco mais forte
-            scene.add(ambientLight);
-            
-            const pointLight = new THREE.PointLight(0xffffff, 2.0); // Luz principal mais forte
-            pointLight.position.set(5, 5, 5);
-            scene.add(pointLight);
-            
-            // SOLUÇÃO FINAL: Carregando a fonte de um link direto para evitar problemas com o GitHub.
-            fontLoader.load(
-                'COLE_AQUI_O_SEU_LINK_DO_CATBOX', // <<<----- IMPORTANTE: SUBSTITUA ESTA LINHA
-                createTextMesh,
-                undefined,
-                (error) => {
-                    console.error("Falha ao carregar a fonte:", error);
-                }
-            );
+            // --- Intersection Observer for scroll animations ---
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            sections.forEach(section => {
+                observer.observe(section);
+            });
 
-            window.addEventListener('resize', onWindowResize, false);
-            animate();
-        }
+            // --- Three.js 3D Text Logic ---
+            let scene, camera, renderer, textMesh, controls;
+            const canvasContainer = document.getElementById('hero-canvas-container');
+            const canvas = document.getElementById('hero-canvas');
+            const fontLoader = new FontLoader();
 
-        function onWindowResize() {
-            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        }
+            function createTextMesh(font) {
+                const textGeometry = new TextGeometry('Moritz', {
+                    font: font,
+                    size: 1.2,
+                    height: 0.4,
+                    curveSegments: 12,
+                    bevelEnabled: true,
+                    bevelThickness: 0.03,
+                    bevelSize: 0.02,
+                    bevelOffset: 0,
+                    bevelSegments: 5
+                });
 
-        function animate() {
-            requestAnimationFrame(animate);
-            if (textMesh) {
-                // Rotação um pouco mais lenta para um efeito mais sutil
-                textMesh.rotation.y += 0.001; 
+                textGeometry.center();
+                
+                const material = new THREE.MeshStandardMaterial({ 
+                    color: 0xffffff,
+                    metalness: 0.8,
+                    roughness: 0.2
+                });
+                textMesh = new THREE.Mesh(textGeometry, material);
+                scene.add(textMesh);
             }
-            controls.update();
-            renderer.render(scene, camera);
-        }
+            
+            function initThreeJS() {
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x0A0A0A);
+            
+                const fov = 75;
+                const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+                const near = 0.1;
+                const far = 1000;
+                camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+                camera.position.z = 5;
+                camera.position.y = 0.2; 
+            
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    antialias: true,
+                });
+                renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        document.addEventListener('DOMContentLoaded', (event) => {
+                controls = new OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.enablePan = false;
+                controls.enableZoom = false;
+                controls.minPolarAngle = Math.PI / 3;
+                controls.maxPolarAngle = 2 * Math.PI / 3;
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+                scene.add(ambientLight);
+                
+                const pointLight = new THREE.PointLight(0xffffff, 2.0);
+                pointLight.position.set(5, 5, 5);
+                scene.add(pointLight);
+                
+                const customFontUrl = 'https://files.catbox.moe/ueihle.json';
+                
+                fontLoader.load(
+                    customFontUrl,
+                    createTextMesh, // On Success
+                    undefined,     // On Progress
+                    (error) => {   // On Error
+                        console.error(`Falha ao carregar a fonte personalizada de: ${customFontUrl}`, error);
+                        console.log("Carregando uma fonte de reserva para garantir a visualização.");
+                        // Fallback: Carrega uma fonte padrão se a sua falhar
+                        fontLoader.load(
+                            'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/droid/droid_serif_bold.typeface.json',
+                            createTextMesh
+                        );
+                    }
+                );
+
+                window.addEventListener('resize', onWindowResize, false);
+                animate();
+            }
+
+            function onWindowResize() {
+                camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                if (textMesh) {
+                    textMesh.rotation.y += 0.001; 
+                }
+                controls.update();
+                renderer.render(scene, camera);
+            }
+
             initThreeJS();
         });
-
     </script>
 
 </body>
