@@ -1,48 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moritz - Criação de Sites em Lavras, MG</title>
-    <meta name="description" content="Moritz - Especialistas em criação de sites e soluções digitais em Lavras, MG. Transformamos suas ideias em presença online de impacto.">
-    <meta name="keywords" content="criação de sites, desenvolvimento web, Lavras, MG, design responsivo, e-commerce, SEO, Moritz">
-    
-    <!-- Tailwind CSS -->
+    <title>Moritz - Criação de Sites Profissionais em Lavras, MG</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Favicon (using the provided logo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="https://iili.io/KxM6lEX.png" type="image/png">
-
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0A0A0A;
-            color: #E0E0E0;
-        }
-        /* Custom scrollbar for a more integrated look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #444;
-        }
-        #hero-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            touch-action: none;
+            color: #E5E7EB;
+            overflow-x: hidden;
         }
         .section {
             opacity: 0;
@@ -53,39 +25,59 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .service-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        #hero-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(255, 255, 255, 0.05), 0 10px 10px -5px rgba(255, 255, 255, 0.04);
+        .glass-effect {
+            background: rgba(16, 16, 16, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            box-shadow: 0 0 20px rgba(238, 238, 238, 0.5);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #eeeeee;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
         }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Header -->
-    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/30 backdrop-blur-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#hero" class="flex items-center">
+    <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#hero">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#sobre" class="text-gray-300 hover:text-white transition duration-300">Sobre</a>
-                <a href="#servicos" class="text-gray-300 hover:text-white transition duration-300">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white transition duration-300">Portfólio</a>
-                <a href="#contato" class="text-gray-300 hover:text-white transition duration-300">Contato</a>
+            <!-- Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#sobre" class="text-gray-300 hover:text-white nav-link">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white nav-link">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link">Portfólio</a>
+                <a href="#contato" class="text-gray-300 hover:text-white nav-link">Contato</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-black/80">
-            <a href="#sobre" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Sobre</a>
-            <a href="#servicos" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Serviços</a>
-            <a href="#portfolio" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Portfólio</a>
-            <a href="#contato" class="block text-center py-3 px-4 text-sm text-gray-200 hover:bg-gray-800">Contato</a>
         </div>
     </header>
 
@@ -104,46 +96,39 @@
                     <img src="https://iili.io/KxM6Hru.png" alt="Logo Moritz em fundo preto" class="rounded-lg shadow-2xl mx-auto">
                 </div>
                 <div class="text-center md:text-left">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Somos a Moritz</h2>
-                    <p class="text-lg text-gray-400 mb-6">
-                        Com base em Lavras, Minas Gerais, a Moritz nasceu da paixão por tecnologia e design. Somos mais do que uma agência de criação de sites; somos seus parceiros estratégicos no mundo digital. Nossa missão é construir pontes entre sua marca e seu público através de soluções web inovadoras, funcionais e, acima de tudo, eficazes.
-                    </p>
-                    <p class="text-gray-400">
-                        Cada projeto é um universo único. Mergulhamos na essência do seu negócio para entregar um site que não apenas impressiona visualmente, mas que também gera resultados concretos e duradouros.
-                    </p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Somos a Moritz</h2>
+                    <p class="mt-4 text-lg text-gray-400">Diretamente de Lavras, MG, para o mundo digital. Somos um estúdio de criação apaixonado por transformar ideias em experiências web memoráveis. Combinamos design clean, tecnologia de ponta e uma estética profissional para construir sites que não apenas impressionam, mas também geram resultados.</p>
+                    <p class="mt-4 text-gray-400">Acreditamos que um bom site é a espinha dorsal de qualquer presença online. É por isso que nos dedicamos a cada detalhe, desde a primeira linha de código até o lançamento final.</p>
                 </div>
             </div>
         </section>
 
         <!-- Serviços -->
-        <section id="servicos" class="py-20 md:py-32 bg-[#0A0A0A] section">
+        <section id="servicos" class="py-20 md:py-32 bg-[#111111] section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nossas Soluções Digitais</h2>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Oferecemos um leque completo de serviços para garantir uma presença online forte e coesa.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nossas Soluções</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Oferecemos uma gama completa de serviços para garantir que seu projeto seja um sucesso.</p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Service Card 1 -->
-                    <div class="service-card bg-[#111111] p-8 rounded-lg border border-gray-800">
-                        <h3 class="text-xl font-bold text-white mb-3">Desenvolvimento de Sites</h3>
-                        <p class="text-gray-400">Criamos sites institucionais e landing pages responsivas, otimizadas para performance e focadas na experiência do usuário (UX/UI).</p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-white">Desenvolvimento Web</h3>
+                        <p class="mt-4 text-gray-400">Criação de sites institucionais, landing pages e e-commerces totalmente responsivos e otimizados para performance.</p>
                     </div>
-                    <!-- Service Card 2 -->
-                    <div class="service-card bg-[#111111] p-8 rounded-lg border border-gray-800">
-                        <h3 class="text-xl font-bold text-white mb-3">E-commerce Completo</h3>
-                        <p class="text-gray-400">Desenvolvemos lojas virtuais robustas e seguras, com integrações de pagamento e logística, prontas para vender online.</p>
+                    <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-white">UI/UX Design</h3>
+                        <p class="mt-4 text-gray-400">Foco na experiência do usuário, criando interfaces intuitivas, bonitas e que convertem visitantes em clientes.</p>
                     </div>
-                    <!-- Service Card 3 -->
-                    <div class="service-card bg-[#111111] p-8 rounded-lg border border-gray-800">
-                        <h3 class="text-xl font-bold text-white mb-3">Otimização SEO</h3>
-                        <p class="text-gray-400">Posicionamos seu site nas primeiras páginas do Google, aumentando a visibilidade e atraindo tráfego orgânico qualificado.</p>
+                    <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300">
+                        <h3 class="text-2xl font-bold text-white">Otimização (SEO)</h3>
+                        <p class="mt-4 text-gray-400">Implementamos as melhores práticas de SEO para que seu site seja encontrado pelos motores de busca e alcance seu público.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Portfólio -->
-        <section id="portfolio" class="py-20 md:py-32 bg-[#0C0C0C] section">
+        <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Projetos Recentes</h2>
@@ -177,46 +162,25 @@
         </section>
 
         <!-- Contato -->
-        <section id="contato" class="py-20 md:py-32 bg-[#0A0A0A] section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Vamos Conversar?</h2>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Envie sua ideia, dúvida ou projeto. Estamos prontos para ajudar a construir seu sucesso digital.</p>
-                </div>
-                <div class="max-w-2xl mx-auto">
-                    <form action="#" method="POST" class="space-y-6">
-                        <div>
-                            <label for="name" class="sr-only">Nome</label>
-                            <input type="text" name="name" id="name" required class="w-full bg-[#111111] border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Seu nome">
-                        </div>
-                        <div>
-                            <label for="email" class="sr-only">Email</label>
-                            <input type="email" name="email" id="email" required class="w-full bg-[#111111] border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Seu e-mail">
-                        </div>
-                        <div>
-                            <label for="message" class="sr-only">Mensagem</label>
-                            <textarea name="message" id="message" rows="4" required class="w-full bg-[#111111] border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Sua mensagem"></textarea>
-                        </div>
-                        <div>
-                            <button type="submit" class="w-full bg-white text-black font-bold py-3 px-6 rounded-md hover:bg-gray-200 transition duration-300">
-                                Enviar Mensagem
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <section id="contato" class="py-20 md:py-32 bg-[#111111] section">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Vamos Conversar?</h2>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Estamos prontos para ouvir sobre seu próximo projeto. Entre em contato e vamos construir algo incrível juntos.</p>
+                <a href="mailto:contato@moritzlavras.com" class="inline-block mt-8 bg-white text-black font-bold py-4 px-8 rounded-lg text-lg cta-button">
+                    Envie uma Mensagem
+                </a>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#0C0C0C] border-t border-gray-800">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
-            <p>&copy; <span id="current-year"></span> Moritz. Todos os direitos reservados.</p>
-            <p class="text-sm">Desenvolvido com paixão em Lavras, MG.</p>
+    <footer class="bg-[#0A0A0A] border-t border-gray-800 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2025 Moritz. Todos os direitos reservados. Feito com ❤️ em Lavras, MG.</p>
         </div>
     </footer>
-
-    <!-- Three.js and dependencies -->
+    
+    <!-- Three.js Library -->
     <script type="importmap">
         {
             "imports": {
@@ -225,67 +189,26 @@
             }
         }
     </script>
-    
+
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { FontLoader } from 'three/addons/loaders/FontLoader.js';
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-        // --- Basic Site Interactivity ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mobile Menu Toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // Smooth scroll for nav links & close mobile menu on click
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    if(this.getAttribute('href') !== '#') {
-                        e.preventDefault();
-                        document.querySelector(this.getAttribute('href')).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                    if (!mobileMenu.classList.contains('hidden')) {
-                         mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
-
-            // Set current year in footer
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-
-            // Header style change on scroll
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('bg-black/80');
-                    header.classList.remove('bg-black/30');
-                } else {
-                    header.classList.remove('bg-black/80');
-                    header.classList.add('bg-black/30');
+        // --- Intersection Observer for scroll animations ---
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-            
-            // Scroll-triggered animations for sections
-            const sections = document.querySelectorAll('.section');
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+        }, {
+            threshold: 0.1
+        });
+        sections.forEach(section => {
+            observer.observe(section);
         });
 
         // --- Three.js 3D Text Logic ---
@@ -307,7 +230,7 @@
                 bevelSegments: 5
             });
 
-            textGeometry.center(); // Center the geometry
+            textGeometry.center();
 
             const material = new THREE.MeshStandardMaterial({ 
                 color: 0xeeeeee,
@@ -324,10 +247,8 @@
         }
         
         function initThreeJS() {
-            // Scene
             scene = new THREE.Scene();
         
-            // Camera
             const fov = 75;
             const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
             const near = 0.1;
@@ -335,7 +256,6 @@
             camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
             camera.position.z = 5;
         
-            // Renderer
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
                 antialias: true,
@@ -344,7 +264,6 @@
             renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Controls
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.enablePan = false;
@@ -352,7 +271,6 @@
             controls.minPolarAngle = Math.PI / 3;
             controls.maxPolarAngle = 2 * Math.PI / 3;
 
-            // Lights
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
             scene.add(ambientLight);
             
@@ -360,23 +278,18 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
             
-            // Load Font and Create Text
-            // IMPORTANTE: Coloque seu arquivo 'Yuji20Boku_Regular.json' na mesma pasta do index.html
-            // ou substitua o nome do arquivo pelo link completo onde ele está hospedado.
+            // --- CARREGANDO SUA FONTE DO GITHUB ---
             fontLoader.load(
-                'https://sweet-puffpuff-6afe10.netlify.app/Yuji20Boku_Regular.json', // <-- Link atualizado com base no seu upload!
-                createTextMesh, // o que fazer se carregar com sucesso
-                undefined, // callback de progresso
-                (error) => { // o que fazer se der erro
+                'https://raw.githubusercontent.com/m0ri1tz/moritz/main/font/Yuji%20Boku_Regular.json',
+                createTextMesh,
+                undefined,
+                (error) => {
                     console.error('Erro ao carregar a fonte personalizada:', error);
-                    loadFallbackFont(); // Carrega uma fonte reserva se a sua não for encontrada
+                    loadFallbackFont();
                 }
             );
 
-            // Handle Window Resize
             window.addEventListener('resize', onWindowResize, false);
-            
-            // Start animation loop
             animate();
         }
 
@@ -386,25 +299,20 @@
             renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
-        
-        // Animation Loop
+
         function animate() {
             requestAnimationFrame(animate);
-            controls.update();
             if (textMesh) {
-                // Subtle automatic rotation when not being interacted with
-                if (!controls.state || controls.state === -1) { 
-                    textMesh.rotation.y += 0.002;
-                }
+                textMesh.rotation.y += 0.002;
             }
+            controls.update();
             renderer.render(scene, camera);
         }
 
         initThreeJS();
+
     </script>
 
 </body>
 </html>
-
-
 
