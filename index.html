@@ -106,24 +106,12 @@
             <a href="#hero" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#sobre" class="text-gray-300 hover:text-white nav-link">Sobre</a>
-                <a href="#servicos" class="text-gray-300 hover:text-white nav-link">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link">Portfólio</a>
+            <!-- Menu de navegação agora visível em todos os tamanhos -->
+            <nav class="flex items-center space-x-8">
+                <a href="#sobre" class="text-gray-300 hover:text-white nav-link hidden sm:inline">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white nav-link hidden sm:inline">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link hidden sm:inline">Portfólio</a>
                 <a href="#contato" class="text-gray-300 hover:text-white nav-link">Contato</a>
-            </nav>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-white focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass-effect">
-            <nav class="flex flex-col items-center space-y-4 py-4">
-                <a href="#sobre" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Sobre</a>
-                <a href="#servicos" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Portfólio</a>
-                <a href="#contato" class="text-gray-300 hover:text-white nav-link mobile-nav-link">Contato</a>
             </nav>
         </div>
     </header>
@@ -255,13 +243,6 @@
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
         
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Mobile Menu Logic ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
-            mobileNavLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
-
             // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
             const observer = new IntersectionObserver((entries) => {
@@ -312,7 +293,6 @@
                 scene.add(textMesh);
             }
 
-            // --- NOVO: Função para criar a seta interativa ---
             function createArrow() {
                 const shape = new THREE.Shape();
                 shape.moveTo(0, 0.1);
@@ -358,9 +338,8 @@
                 const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 fontLoader.load(customFontUrl, createTextMesh);
 
-                createArrow(); // Cria a seta
+                createArrow();
 
-                // --- Lógica do Novo Menu Interativo ---
                 heroSection.addEventListener('mouseenter', () => {
                     isMenuOpen = true;
                     controls.autoRotate = false;
@@ -373,7 +352,7 @@
                 });
                 
                 const heroNavLinks = document.querySelectorAll('.hero-menu-link');
-                const menuLinkPositions = [1.3, 0.45, -0.4, -1.25]; // Posições Y pré-calculadas para a seta
+                const menuLinkPositions = [1.3, 0.45, -0.4, -1.25];
 
                 heroNavLinks.forEach((link, index) => {
                     link.addEventListener('mouseenter', () => {
@@ -404,6 +383,8 @@
                     textMesh.position.lerp(targetPosition, 0.08);
                 }
                 if (arrowMesh) {
+                    // Posiciona a seta em relação ao M
+                    arrowTargetPosition.x = textMesh.position.x + 1.8;
                     arrowMesh.position.lerp(arrowTargetPosition, 0.1);
                 }
 
