@@ -273,13 +273,13 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
             
-            // SOLUÇÃO FINAL: Usando jsDelivr para carregar a sua fonte específica do GitHub LFS
+            // SOLUÇÃO FINAL: Carregando a fonte de um link direto para evitar problemas com o GitHub.
             fontLoader.load(
-                'https://cdn.jsdelivr.net/gh/m0ri1tz/moritz/YujiBoku_Regular.json',
+                'https://files.catbox.moe/ueihle.json', // <<<----- IMPORTANTE: SUBSTITUA ESTA LINHA
                 createTextMesh,
                 undefined,
                 (error) => {
-                    console.error("Falha ao carregar a fonte via jsDelivr:", error);
+                    console.error("Falha ao carregar a fonte:", error);
                 }
             );
 
