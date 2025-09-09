@@ -247,9 +247,8 @@
         }
         
         function initThreeJS() {
-            console.log("Iniciando Three.js..."); // Para depuração
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0A0A0A); // Adicionado para garantir o fundo
+            scene.background = new THREE.Color(0x0A0A0A);
         
             const fov = 75;
             const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
@@ -261,7 +260,6 @@
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
                 antialias: true,
-                // alpha: true // Removido alpha para usar o fundo da cena
             });
             renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -280,9 +278,8 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
             
-            // --- CARREGANDO SUA FONTE DO GITHUB ---
             fontLoader.load(
-                'YujiBoku_Regular.json', // <-- CORREÇÃO FINAL: Caminho relativo
+                'YujiBoku_Regular.json', 
                 createTextMesh,
                 undefined,
                 (error) => {
@@ -311,7 +308,10 @@
             renderer.render(scene, camera);
         }
 
-        initThreeJS();
+        // CORREÇÃO FINAL: Espera a página carregar antes de iniciar a animação
+        document.addEventListener('DOMContentLoaded', (event) => {
+            initThreeJS();
+        });
 
     </script>
 
