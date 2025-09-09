@@ -240,11 +240,6 @@
             textMesh = new THREE.Mesh(textGeometry, material);
             scene.add(textMesh);
         }
-
-        function loadFallbackFont() {
-            console.warn("Fonte personalizada não encontrada. Carregando fonte padrão.");
-            fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/droid/droid_serif_bold.typeface.json', createTextMesh);
-        }
         
         function initThreeJS() {
             scene = new THREE.Scene();
@@ -278,13 +273,13 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
             
+            // SOLUÇÃO FINAL: Usando jsDelivr para carregar a sua fonte específica do GitHub LFS
             fontLoader.load(
-                'YujiBoku_Regular.json', 
+                'https://cdn.jsdelivr.net/gh/m0ri1tz/moritz/YujiBoku_Regular.json',
                 createTextMesh,
                 undefined,
                 (error) => {
-                    console.error('Erro ao carregar a fonte personalizada:', error);
-                    loadFallbackFont();
+                    console.error("Falha ao carregar a fonte via jsDelivr:", error);
                 }
             );
 
@@ -308,7 +303,6 @@
             renderer.render(scene, camera);
         }
 
-        // CORREÇÃO FINAL: Espera a página carregar antes de iniciar a animação
         document.addEventListener('DOMContentLoaded', (event) => {
             initThreeJS();
         });
