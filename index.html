@@ -109,7 +109,6 @@
             <nav id="mobile-nav" class="flex items-center space-x-2 sm:space-x-4">
                 <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Sobre</a>
                 <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Portfólio</a>
                 <a href="#contato" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Contato</a>
             </nav>
         </div>
@@ -124,11 +123,10 @@
             </div>
             <!-- Menu Interativo (Apenas para Desktop) -->
             <div id="hero-menu" class="absolute flex items-center justify-center w-1/2 h-full right-0">
-                <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-400">
+                <nav class="flex flex-col items-start space-y-6 text-3xl font-bold text-gray-400">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
                     <a href="#servicos" class="hero-menu-link" style="transition-delay: 200ms;">Serviços</a>
-                    <a href="#portfolio" class="hero-menu-link" style="transition-delay: 300ms;">Portfólio</a>
-                    <a href="#contato" class="hero-menu-link" style="transition-delay: 400ms;">Contato</a>
+                    <a href="#contato" class="hero-menu-link" style="transition-delay: 300ms;">Contato</a>
                 </nav>
             </div>
         </section>
@@ -168,36 +166,6 @@
                     <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300">
                         <h3 class="text-2xl font-bold text-white">Otimização (SEO)</h3>
                         <p class="mt-4 text-gray-400">Implementamos as melhores práticas de SEO para que seu site seja encontrado pelos motores de busca e alcance seu público.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfólio -->
-        <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Projetos Recentes</h2>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Confira alguns dos trabalhos que nos enchem de orgulho.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="rounded-lg overflow-hidden border border-gray-800 flex flex-col">
-                        <div class="p-4 bg-[#111111] border-b border-gray-800">
-                             <h3 class="text-xl font-bold text-white">Animale</h3>
-                             <p class="text-sm text-gray-400 mt-1">Site de moda e vestuário.</p>
-                        </div>
-                        <div class="aspect-video bg-black flex-grow">
-                             <iframe src="https://www.animale.com.br/" class="w-full h-full border-0" title="Demonstração do site Animale"></iframe>
-                        </div>
-                    </div>
-                    <div class="rounded-lg overflow-hidden border border-gray-800 flex flex-col">
-                        <div class="p-4 bg-[#111111] border-b border-gray-800">
-                             <h3 class="text-xl font-bold text-white">M·A·C Cosmetics</h3>
-                             <p class="text-sm text-gray-400 mt-1">E-commerce de cosméticos.</p>
-                        </div>
-                        <div class="aspect-video bg-black flex-grow">
-                            <iframe src="https://www.maccosmetics.com.br/" class="w-full h-full border-0" title="Demonstração do site M·A·C Cosmetics"></iframe>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -244,9 +212,10 @@
                 if (history.scrollRestoration) {
                     history.scrollRestoration = 'manual';
                 }
+                // Força o scroll para o topo de forma agressiva
                 setTimeout(() => window.scrollTo(0, 0), 10);
+                setTimeout(() => window.scrollTo(0, 0), 50); // E de novo, para garantir
             });
-
 
             // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
@@ -348,7 +317,7 @@
                 });
                 
                 const heroNavLinks = document.querySelectorAll('.hero-menu-link');
-                const menuLinkPositions = [1.3, 0.45, -0.4, -1.25];
+                const menuLinkPositions = [1.0, 0, -1.0]; // Posições para Sobre, Serviços, Contato
 
                 heroNavLinks.forEach((link, index) => {
                     link.addEventListener('mouseenter', () => {
