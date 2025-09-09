@@ -96,33 +96,29 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect">
+    <!-- Header (agora apenas para telemóvel) -->
+    <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect md:hidden">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#hero" class="z-10">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <!-- Navegação apenas para telemóvel -->
-            <nav id="mobile-nav" class="flex md:hidden items-center space-x-4">
-                <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-sm">Sobre</a>
-                <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-sm">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link text-sm">Portfólio</a>
-                <a href="#contato" class="text-gray-300 hover:text-white nav-link text-sm">Contato</a>
+            <nav id="mobile-nav" class="flex items-center space-x-2 sm:space-x-4">
+                <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Serviços</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Portfólio</a>
+                <a href="#contato" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Contato</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section with 3D Text -->
+        <!-- Hero Section -->
         <section id="hero" class="h-screen w-full relative flex items-center justify-center text-center">
+            <!-- Canvas para Desktop -->
             <div id="hero-canvas-container" class="absolute inset-0">
                 <canvas id="hero-canvas"></canvas>
             </div>
-            <!-- Fallback para Mobile -->
-            <div id="hero-mobile-fallback" class="hidden justify-center items-center h-full w-full">
-                <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-32 w-auto animate-pulse">
-            </div>
-            <!-- Novo Menu Interativo (Apenas para Desktop) -->
+            <!-- Menu Interativo (Apenas para Desktop) -->
             <div id="hero-menu" class="absolute hidden md:flex items-center justify-center w-1/2 h-full right-0">
                 <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-400">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
@@ -239,11 +235,16 @@
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
         
         document.addEventListener('DOMContentLoaded', () => {
-            // Correção do scroll ao carregar
-            if (window.history.scrollRestoration) {
-                window.history.scrollRestoration = 'manual';
+            // Correção robusta do scroll ao carregar
+            if (history.scrollRestoration) {
+                history.scrollRestoration = 'manual';
             }
-            window.scrollTo(0, 0);
+            // Remove o hash da URL sem recarregar e rola para o topo
+            if (location.hash) {
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
+            setTimeout(() => window.scrollTo(0, 0), 1);
+
 
             // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
@@ -252,19 +253,20 @@
             }, { threshold: 0.1 });
             sections.forEach(section => { observer.observe(section); });
 
-            // --- Three.js 3D Scene Logic ---
+            // --- Lógica de exibição para Mobile vs Desktop ---
             const isMobile = window.innerWidth <= 1024;
             const heroSection = document.getElementById('hero');
-            const heroMenu = document.getElementById('hero-menu');
-            const canvasContainer = document.getElementById('hero-canvas-container');
-            const mobileFallback = document.getElementById('hero-mobile-fallback');
+            const sobreSection = document.getElementById('sobre');
 
             if (isMobile) {
-                canvasContainer.style.display = 'none';
-                mobileFallback.style.display = 'flex';
+                heroSection.style.display = 'none';
+                sobreSection.style.paddingTop = '8rem'; // Adiciona espaço para o header fixo
                 return;
             }
 
+            // --- Lógica 3D (Apenas para Desktop) ---
+            const heroMenu = document.getElementById('hero-menu');
+            const canvasContainer = document.getElementById('hero-canvas-container');
             let scene, camera, renderer, textMesh, controls, arrowMesh;
             const canvas = document.getElementById('hero-canvas');
             const fontLoader = new FontLoader();
@@ -361,6 +363,9 @@
             }
 
             function onWindowResize() {
+                // Previne a execução em mobile onde a cena 3D não existe
+                if (isMobile) return;
+
                 camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
@@ -374,7 +379,7 @@
                     const targetPosition = isMenuOpen ? menuPosition : centerPosition;
                     const targetScale = isMenuOpen ? menuScale : centerScale;
                     textMesh.position.lerp(targetPosition, 0.08);
-                    textMesh.scale.lerp(targetScale, 0.08); // Animação da escala
+                    textMesh.scale.lerp(targetScale, 0.08);
                 }
                 if (arrowMesh) {
                     arrowTargetPosition.x = textMesh.position.x + 1.8;
