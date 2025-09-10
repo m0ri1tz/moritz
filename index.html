@@ -35,8 +35,9 @@
             cursor: pointer;
         }
         #hero {
-            background-color: #f0f0f0; /* Fundo cinza claro para combinar com a cena */
+            background-color: #000000;
         }
+        /* Efeito Paralaxe para Desktop */
         #parallax-section {
             height: 24rem; /* h-96 */
             background-image: url('https://iili.io/KxpaMW7.png');
@@ -45,10 +46,12 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        /* Correção para Mobile: substitui o paralaxe por um divisor */
         @media (max-width: 1024px) {
             #parallax-section {
-                height: 16rem; /* h-64 */
-                background-attachment: scroll;
+                height: 10rem; /* h-40 */
+                background-image: none;
+                background-color: #111111;
             }
         }
         .glass-effect {
@@ -93,14 +96,7 @@
         }
         .hero-menu-link:hover {
             transform: translateX(10px);
-            color: #0A0A0A; /* Cor escura para contrastar com o fundo branco */
-        }
-        .portfolio-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .portfolio-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
         }
     </style>
 </head>
@@ -115,7 +111,6 @@
             <nav id="mobile-nav" class="flex items-center space-x-2 sm:space-x-4">
                 <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Sobre</a>
                 <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Portfólio</a>
                 <a href="#contato" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Contato</a>
             </nav>
         </div>
@@ -128,11 +123,10 @@
                 <canvas id="hero-canvas"></canvas>
             </div>
             <div id="hero-menu" class="absolute flex items-center justify-center w-1/2 h-full right-0">
-                <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-600">
+                <nav class="flex flex-col items-start space-y-6 text-3xl font-bold text-gray-400">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
                     <a href="#servicos" class="hero-menu-link" style="transition-delay: 200ms;">Serviços</a>
-                    <a href="#portfolio" class="hero-menu-link" style="transition-delay: 300ms;">Portfólio</a>
-                    <a href="#contato" class="hero-menu-link" style="transition-delay: 400ms;">Contato</a>
+                    <a href="#contato" class="hero-menu-link" style="transition-delay: 300ms;">Contato</a>
                 </nav>
             </div>
         </section>
@@ -172,38 +166,6 @@
                     <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300 transform hover:-translate-y-2">
                         <h3 class="text-2xl font-bold text-white">Otimização (SEO)</h3>
                         <p class="mt-4 text-gray-400">Implementamos as melhores práticas de SEO para que seu site seja encontrado pelos motores de busca e alcance seu público.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfólio -->
-        <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Portfólio</h2>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Conheça alguns dos projetos que tivemos o prazer de desenvolver.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <div class="aspect-video bg-black">
-                            <video src="https://files.catbox.moe/4n8239.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white">Animale</h3>
-                            <p class="text-sm text-gray-400 mt-1 mb-4">Simulação de navegação em e-commerce de moda.</p>
-                             <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
-                        </div>
-                    </div>
-                    <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <div class="aspect-video bg-black">
-                             <video src="https://files.catbox.moe/f8242j.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        </div>
-                         <div class="p-6">
-                             <h3 class="text-xl font-bold text-white">Maybelline</h3>
-                             <p class="text-sm text-gray-400 mt-1 mb-4">Demonstração de navegação em site de cosméticos.</p>
-                             <a href="https://www.maybelline.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -252,19 +214,22 @@
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
         
         document.addEventListener('DOMContentLoaded', () => {
+            // Correção robusta do scroll ao carregar
             if (history.scrollRestoration) {
                 history.scrollRestoration = 'manual';
             }
             window.addEventListener('load', () => {
-                setTimeout(() => window.scrollTo(0, 0), 10);
+                setTimeout(() => window.scrollTo(0, 0), 1);
             });
 
+            // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
             }, { threshold: 0.1 });
             sections.forEach(section => { observer.observe(section); });
 
+            // --- Lógica de exibição para Mobile vs Desktop ---
             const isMobile = window.innerWidth <= 1024;
             const heroSection = document.getElementById('hero');
             const sobreSection = document.getElementById('sobre');
@@ -275,6 +240,7 @@
                 return;
             }
 
+            // --- Lógica 3D (Apenas para Desktop) ---
             const heroMenu = document.getElementById('hero-menu');
             const canvasContainer = document.getElementById('hero-canvas-container');
             let scene, camera, renderer, textMesh, controls, arrowMesh;
@@ -283,7 +249,7 @@
             
             let isMenuOpen = false;
             const centerPosition = new THREE.Vector3(0, 0, 0);
-            const menuPosition = new THREE.Vector3(-3.5, 0, 0);
+            const menuPosition = new THREE.Vector3(-3, 0, 0);
             const centerScale = new THREE.Vector3(1, 1, 1);
             const menuScale = new THREE.Vector3(0.8, 0.8, 0.8);
             const arrowTargetPosition = new THREE.Vector3();
@@ -295,11 +261,10 @@
                 });
                 textGeometry.center();
                 
-                const frontMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.9, roughness: 0.2 });
-                const sideMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.9, roughness: 0.2 });
+                const frontMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.8, roughness: 0.2 });
+                const sideMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.8, roughness: 0.2 });
                 const materials = [frontMaterial, sideMaterial];
                 textMesh = new THREE.Mesh(textGeometry, materials);
-                textMesh.castShadow = true;
                 scene.add(textMesh);
             }
 
@@ -307,7 +272,7 @@
                 const shape = new THREE.Shape();
                 shape.moveTo(0, 0.1); shape.lineTo(0.2, 0); shape.lineTo(0, -0.1); shape.lineTo(0, 0.1);
                 const geometry = new THREE.ShapeGeometry(shape);
-                const material = new THREE.MeshBasicMaterial({ color: 0x333333, depthTest: false });
+                const material = new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false });
                 arrowMesh = new THREE.Mesh(geometry, material);
                 arrowMesh.position.set(-1.5, 0, 0.1);
                 arrowMesh.visible = false;
@@ -315,64 +280,35 @@
                 scene.add(arrowMesh);
             }
 
-            function createStudioRoom() {
-                const roomSize = 40;
-                const roomGeometry = new THREE.BoxGeometry(roomSize, roomSize, roomSize);
-                const roomMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xe0e0e0, // Um branco um pouco mais suave
-                    side: THREE.BackSide,
-                    metalness: 0.1,
-                    roughness: 0.8
-                });
-                const room = new THREE.Mesh(roomGeometry, roomMaterial);
-                room.receiveShadow = true;
-                scene.add(room);
-            }
-
             function initThreeJS() {
                 scene = new THREE.Scene();
-                scene.background = new THREE.Color(0xe0e0e0);
-
-                const fov = 50;
+                const fov = 75;
                 const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
                 const near = 0.1;
-                const far = 100;
+                const far = 1000;
                 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-                camera.position.set(0, 2, 10); // Posição da câmara ajustada para ver o teto
+                camera.position.z = 5;
             
-                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                renderer.shadowMap.enabled = true; // Ativa as sombras
-                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
                 controls = new OrbitControls(camera, renderer.domElement);
                 controls.enableDamping = true; controls.dampingFactor = 0.05;
                 controls.enablePan = false; controls.enableZoom = false;
                 controls.autoRotate = true; controls.autoRotateSpeed = 0.2;
                 controls.enableRotate = true;
-                controls.minDistance = 6;
-                controls.maxDistance = 15;
-                controls.maxPolarAngle = Math.PI / 2 - 0.1; // Limita para ver o teto
-                controls.minPolarAngle = Math.PI / 4;
 
-                // --- NOVO: Sistema de iluminação de estúdio ---
-                const hemiLight = new THREE.HemisphereLight(0xffffff, 0x888888, 1.5);
-                scene.add(hemiLight);
-
-                // Luz principal ("Sol")
-                const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
-                dirLight.position.set(-8, 12, 8);
-                dirLight.castShadow = true;
-                dirLight.shadow.mapSize.width = 2048;
-                dirLight.shadow.mapSize.height = 2048;
-                scene.add(dirLight);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                scene.add(ambientLight);
+                const pointLight = new THREE.PointLight(0xffffff, 1.0);
+                pointLight.position.set(2, 4, 5);
+                scene.add(pointLight);
                 
                 const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 fontLoader.load(customFontUrl, createTextMesh);
 
                 createArrow();
-                createStudioRoom();
 
                 heroSection.addEventListener('mouseenter', () => {
                     isMenuOpen = true;
@@ -386,7 +322,7 @@
                 });
                 
                 const heroNavLinks = document.querySelectorAll('.hero-menu-link');
-                const menuLinkPositions = [1.3, 0.45, -0.4, -1.25];
+                const menuLinkPositions = [1.0, 0, -1.0]; // Posições para Sobre, Serviços, Contato
 
                 heroNavLinks.forEach((link, index) => {
                     link.addEventListener('mouseenter', () => {
@@ -420,7 +356,7 @@
                     textMesh.scale.lerp(targetScale, 0.08);
                 }
                 if (arrowMesh) {
-                    arrowTargetPosition.x = textMesh.position.x + 2.2;
+                    arrowTargetPosition.x = textMesh.position.x + 1.8;
                     arrowMesh.position.lerp(arrowTargetPosition, 0.1);
                 }
 
