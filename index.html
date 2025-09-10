@@ -35,9 +35,8 @@
             cursor: pointer;
         }
         #hero {
-            background-color: #000000;
+            background-color: #ffffff; /* Fundo branco para combinar com a cena */
         }
-        /* Efeito Paralaxe para Desktop */
         #parallax-section {
             height: 24rem; /* h-96 */
             background-image: url('https://iili.io/KxpaMW7.png');
@@ -46,7 +45,6 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        /* Correção para Mobile: transforma o paralaxe num fundo normal e ajusta a altura */
         @media (max-width: 1024px) {
             #parallax-section {
                 height: 16rem; /* h-64 */
@@ -95,7 +93,7 @@
         }
         .hero-menu-link:hover {
             transform: translateX(10px);
-            color: #ffffff;
+            color: #0A0A0A; /* Cor escura para contrastar com o fundo branco */
         }
         .portfolio-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -130,7 +128,7 @@
                 <canvas id="hero-canvas"></canvas>
             </div>
             <div id="hero-menu" class="absolute flex items-center justify-center w-1/2 h-full right-0">
-                <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-400">
+                <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-600">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
                     <a href="#servicos" class="hero-menu-link" style="transition-delay: 200ms;">Serviços</a>
                     <a href="#portfolio" class="hero-menu-link" style="transition-delay: 300ms;">Portfólio</a>
@@ -179,7 +177,7 @@
             </div>
         </section>
 
-        <!-- Portfólio (ATUALIZADO) -->
+        <!-- Portfólio -->
         <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -187,7 +185,6 @@
                     <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Conheça alguns dos projetos que tivemos o prazer de desenvolver.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-10">
-                    <!-- Projeto 1: Animale com Vídeo Atualizado -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
                         <div class="aspect-video bg-black">
                             <video src="https://files.catbox.moe/4n8239.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
@@ -198,7 +195,6 @@
                              <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
-                    <!-- Projeto 2: Maybelline com Vídeo -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
                         <div class="aspect-video bg-black">
                              <video src="https://files.catbox.moe/f8242j.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
@@ -256,7 +252,6 @@
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
         
         document.addEventListener('DOMContentLoaded', () => {
-            // Correção robusta do scroll ao carregar
             if (history.scrollRestoration) {
                 history.scrollRestoration = 'manual';
             }
@@ -264,15 +259,12 @@
                 setTimeout(() => window.scrollTo(0, 0), 10);
             });
 
-
-            // --- Intersection Observer Logic ---
             const sections = document.querySelectorAll('.section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
             }, { threshold: 0.1 });
             sections.forEach(section => { observer.observe(section); });
 
-            // --- Lógica de exibição para Mobile vs Desktop ---
             const isMobile = window.innerWidth <= 1024;
             const heroSection = document.getElementById('hero');
             const sobreSection = document.getElementById('sobre');
@@ -283,7 +275,6 @@
                 return;
             }
 
-            // --- Lógica 3D (Apenas para Desktop) ---
             const heroMenu = document.getElementById('hero-menu');
             const canvasContainer = document.getElementById('hero-canvas-container');
             let scene, camera, renderer, textMesh, controls, arrowMesh;
@@ -315,7 +306,7 @@
                 const shape = new THREE.Shape();
                 shape.moveTo(0, 0.1); shape.lineTo(0.2, 0); shape.lineTo(0, -0.1); shape.lineTo(0, 0.1);
                 const geometry = new THREE.ShapeGeometry(shape);
-                const material = new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false });
+                const material = new THREE.MeshBasicMaterial({ color: 0xcccccc, depthTest: false });
                 arrowMesh = new THREE.Mesh(geometry, material);
                 arrowMesh.position.set(-1.5, 0, 0.1);
                 arrowMesh.visible = false;
@@ -323,8 +314,22 @@
                 scene.add(arrowMesh);
             }
 
+            function createStudioRoom() {
+                const roomGeometry = new THREE.BoxGeometry(40, 30, 40);
+                const roomMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffffff,
+                    side: THREE.BackSide,
+                    metalness: 0.2,
+                    roughness: 0.9
+                });
+                const room = new THREE.Mesh(roomGeometry, roomMaterial);
+                scene.add(room);
+            }
+
             function initThreeJS() {
                 scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xffffff);
+
                 const fov = 75;
                 const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
                 const near = 0.1;
@@ -332,7 +337,7 @@
                 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
                 camera.position.z = 5;
             
-                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -341,17 +346,22 @@
                 controls.enablePan = false; controls.enableZoom = false;
                 controls.autoRotate = true; controls.autoRotateSpeed = 0.2;
                 controls.enableRotate = true;
+                controls.minDistance = 4;
+                controls.maxDistance = 10;
+                controls.maxPolarAngle = Math.PI / 1.5;
+                controls.minPolarAngle = Math.PI / 3;
 
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
                 scene.add(ambientLight);
-                const pointLight = new THREE.PointLight(0xffffff, 1.0);
-                pointLight.position.set(2, 4, 5);
-                scene.add(pointLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+                directionalLight.position.set(5, 10, 7.5);
+                scene.add(directionalLight);
                 
                 const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 fontLoader.load(customFontUrl, createTextMesh);
 
                 createArrow();
+                createStudioRoom();
 
                 heroSection.addEventListener('mouseenter', () => {
                     isMenuOpen = true;
