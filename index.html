@@ -46,12 +46,11 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        /* Correção para Mobile: substitui o paralaxe por um divisor */
+        /* Correção para Mobile: transforma o paralaxe num fundo normal e ajusta a altura */
         @media (max-width: 1024px) {
             #parallax-section {
-                height: 10rem; /* h-40 */
-                background-image: none;
-                background-color: #111111;
+                height: 50vh; /* Altura relativa à tela para evitar bordas */
+                background-attachment: scroll;
             }
         }
         .glass-effect {
@@ -180,7 +179,7 @@
             </div>
         </section>
 
-        <!-- Portfólio (Restaurado) -->
+        <!-- Portfólio (ATUALIZADO com Imagens) -->
         <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -188,23 +187,25 @@
                     <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Conheça alguns dos projetos que tivemos o prazer de desenvolver.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-10">
+                    <!-- Projeto 1: Animale -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <div class="aspect-video bg-black">
-                            <video src="https://files.catbox.moe/4n8239.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        </div>
+                        <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer">
+                            <img src="https://placehold.co/600x400/111111/FFFFFF?text=Animale" alt="Projeto da marca Animale" class="w-full h-auto object-cover">
+                        </a>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-white">Animale</h3>
-                            <p class="text-sm text-gray-400 mt-1 mb-4">Simulação de navegação em e-commerce de moda.</p>
-                             <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">E-commerce de moda e vestuário.</p>
+                            <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
+                    <!-- Projeto 2: Maybelline -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <div class="aspect-video bg-black">
-                             <video src="https://files.catbox.moe/f8242j.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        </div>
+                         <a href="https://www.maybelline.com.br/" target="_blank" rel="noopener noreferrer">
+                            <img src="https://placehold.co/600x400/111111/FFFFFF?text=Maybelline" alt="Projeto da marca Maybelline" class="w-full h-auto object-cover">
+                        </a>
                          <div class="p-6">
                              <h3 class="text-xl font-bold text-white">Maybelline</h3>
-                             <p class="text-sm text-gray-400 mt-1 mb-4">Demonstração de navegação em site de cosméticos.</p>
+                             <p class="text-sm text-gray-400 mt-1 mb-4">Site de cosméticos e beleza.</p>
                              <a href="https://www.maybelline.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
