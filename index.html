@@ -39,15 +39,17 @@
         }
         /* Efeito Paralaxe para Desktop */
         #parallax-section {
+            height: 24rem; /* h-96 */
             background-image: url('https://iili.io/KxpaMW7.png');
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
         }
-        /* Correção para Mobile: transforma o paralaxe num fundo normal */
+        /* Correção para Mobile: transforma o paralaxe num fundo normal e ajusta a altura */
         @media (max-width: 1024px) {
             #parallax-section {
+                height: 16rem; /* h-64 */
                 background-attachment: scroll;
             }
         }
@@ -151,7 +153,7 @@
         </section>
         
         <!-- Secção de Imagem com Paralaxe -->
-        <section id="parallax-section" class="h-96"></section>
+        <section id="parallax-section"></section>
         
         <!-- Serviços -->
         <section id="servicos" class="py-20 md:py-32 bg-[#111111] section">
@@ -185,26 +187,27 @@
                     <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Conheça alguns dos projetos que tivemos o prazer de desenvolver.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-10">
-                    <!-- Projeto 1: Taco -->
+                    <!-- Projeto 1: Animale com Vídeo -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white">Taco</h3>
-                            <p class="text-sm text-gray-400 mt-1">E-commerce de moda e vestuário.</p>
+                        <div class="aspect-video bg-black">
+                            <video src="https://files.catbox.moe/2dbxaf.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                         </div>
-                        <div class="aspect-video bg-black flex-grow">
-                             <!-- IMPORTANTE: Alguns sites podem não carregar aqui devido a restrições de segurança deles. -->
-                            <iframe src="https://www.taco.com.br/" class="w-full h-full border-0" title="Demonstração do site Taco"></iframe>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Animale</h3>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">Simulação de navegação em e-commerce de moda.</p>
+                             <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
                     <!-- Projeto 2: Gata Bakana -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <div class="p-6">
-                             <h3 class="text-xl font-bold text-white">Gata Bakana</h3>
-                             <p class="text-sm text-gray-400 mt-1">Loja online de moda feminina.</p>
-                        </div>
                         <div class="aspect-video bg-black flex-grow">
                             <!-- IMPORTANTE: Alguns sites podem não carregar aqui devido a restrições de segurança deles. -->
                             <iframe src="https://www.gatabakana.com.br/" class="w-full h-full border-0" title="Demonstração do site Gata Bakana"></iframe>
+                        </div>
+                         <div class="p-6">
+                             <h3 class="text-xl font-bold text-white">Gata Bakana</h3>
+                             <p class="text-sm text-gray-400 mt-1 mb-4">Loja online de moda feminina.</p>
+                             <a href="https://www.gatabakana.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
                 </div>
