@@ -49,7 +49,7 @@
         /* Correção para Mobile: transforma o paralaxe num fundo normal e ajusta a altura */
         @media (max-width: 1024px) {
             #parallax-section {
-                height: 50vh; /* Altura relativa à tela para evitar bordas */
+                height: 50vh;
                 background-attachment: scroll;
             }
         }
@@ -103,6 +103,29 @@
         .portfolio-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        /* Animação de slideshow para o portfólio */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            overflow: hidden; /* Esconde a parte extra da imagem para "cortar" o mouse */
+        }
+        .slideshow img {
+            position: absolute;
+            top: 0;
+            left: -0.5%; /* Move a imagem um pouco para a esquerda */
+            width: 101%; /* Aumenta a imagem para cobrir a área e esconder a borda direita */
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            animation: crossfade 10s infinite;
+        }
+        .slideshow img:nth-child(2) {
+            animation-delay: 5s;
+        }
+        @keyframes crossfade {
+            0%, 45%, 100% { opacity: 0; }
+            50%, 95% { opacity: 1; }
         }
     </style>
 </head>
@@ -179,7 +202,7 @@
             </div>
         </section>
 
-        <!-- Portfólio (ATUALIZADO com Imagens) -->
+        <!-- Portfólio (ATUALIZADO com Imagens em Loop) -->
         <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -189,9 +212,10 @@
                 <div class="grid md:grid-cols-2 gap-10">
                     <!-- Projeto 1: Animale -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                        <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer">
-                            <img src="https://placehold.co/600x400/111111/FFFFFF?text=Animale" alt="Projeto da marca Animale" class="w-full h-auto object-cover">
-                        </a>
+                        <div class="aspect-video bg-black slideshow">
+                           <img src="https://iili.io/KzOwXeI.png" alt="Demonstração do site Animale 1">
+                           <img src="https://iili.io/KzON724.png" alt="Demonstração do site Animale 2">
+                        </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-white">Animale</h3>
                             <p class="text-sm text-gray-400 mt-1 mb-4">E-commerce de moda e vestuário.</p>
@@ -200,9 +224,10 @@
                     </div>
                     <!-- Projeto 2: Maybelline -->
                     <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
-                         <a href="https://www.maybelline.com.br/" target="_blank" rel="noopener noreferrer">
-                            <img src="https://placehold.co/600x400/111111/FFFFFF?text=Maybelline" alt="Projeto da marca Maybelline" class="w-full h-auto object-cover">
-                        </a>
+                         <div class="aspect-video bg-black slideshow">
+                             <img src="https://iili.io/KzOerep.png" alt="Demonstração do site Maybelline 1">
+                             <img src="https://iili.io/KzOUcKX.png" alt="Demonstração do site Maybelline 2">
+                         </div>
                          <div class="p-6">
                              <h3 class="text-xl font-bold text-white">Maybelline</h3>
                              <p class="text-sm text-gray-400 mt-1 mb-4">Site de cosméticos e beleza.</p>
