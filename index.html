@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moritz - Criação de Sites Profissionais em Lavras, MG</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
     <link rel="icon" href="https://iili.io/KxM6lEX.png" type="image/png">
+    
+    <!-- Custom Styles -->
     <style>
+        /* --- Configurações Globais --- */
         html {
             scroll-behavior: smooth;
         }
@@ -18,71 +27,64 @@
             background-color: #0A0A0A;
             color: #E5E7EB;
             overflow-x: hidden;
+            cursor: none; /* Esconde o cursor padrão */
         }
+        ::selection {
+            background-color: #4ade80;
+            color: #0A0A0A;
+        }
+        
+        /* --- Cursor Customizado --- */
+        .custom-cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #4ade80;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s linear;
+        }
+        .custom-cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #4ade80;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease-out;
+        }
+        body:hover .custom-cursor-outline {
+            opacity: 1;
+        }
+        .cursor-grow {
+            transform: scale(2.5);
+            background-color: rgba(74, 222, 128, 0.2);
+            border-color: transparent;
+        }
+
+        /* --- Animações de Scroll --- */
         .section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .section.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* --- Hero Section & Canvas --- */
         #hero-canvas {
             display: block;
             width: 100%;
             height: 100%;
-            cursor: pointer;
         }
         #hero {
             background-color: #000000;
-        }
-        /* Efeito Paralaxe para Desktop */
-        #parallax-section {
-            height: 24rem; /* h-96 */
-            background-image: url('https://iili.io/KxpaMW7.png');
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        /* Correção para Mobile: transforma o paralaxe num fundo normal e ajusta a altura */
-        @media (max-width: 1024px) {
-            #parallax-section {
-                height: 50vh;
-                background-attachment: scroll;
-            }
-        }
-        .glass-effect {
-            background: rgba(10, 10, 10, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .cta-button {
-            transition: all 0.3s ease;
-        }
-        .cta-button:hover {
-            box-shadow: 0 0 20px rgba(96, 223, 128, 0.5); /* Sombra verde do WhatsApp */
-            transform: translateY(-2px);
-        }
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #eeeeee;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
         }
         .hero-menu-link {
             transition: transform 0.3s ease, color 0.3s ease, opacity 0.5s ease;
@@ -97,58 +99,179 @@
             transform: translateX(10px);
             color: #ffffff;
         }
+
+        /* --- Header --- */
+        .header-scrolled {
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4ade80; /* Verde como destaque */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* --- Efeitos de Hover e Botões --- */
+        .cta-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(74, 222, 128, 0);
+        }
+        .cta-button:hover {
+            box-shadow: 0 0 25px rgba(74, 222, 128, 0.6);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* --- Seção de Processo --- */
+        .process-card::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -2rem;
+            left: -2rem;
+            width: 4rem;
+            height: 4rem;
+            background-color: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #4ade80;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .process-card:hover::before {
+            transform: scale(1.1);
+            background-color: rgba(74, 222, 128, 0.2);
+        }
+
+        /* --- Portfólio --- */
         .portfolio-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
         .portfolio-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
         }
-        /* Animação de slideshow para o portfólio */
         .slideshow {
             position: relative;
             width: 100%;
-            overflow: hidden; /* Esconde a parte extra da imagem para "cortar" o mouse */
+            overflow: hidden;
         }
         .slideshow img {
             position: absolute;
             top: 0;
-            left: -0.5%; /* Move a imagem um pouco para a esquerda */
-            width: 101%; /* Aumenta a imagem para cobrir a área e esconder a borda direita */
+            left: 0;
+            width: 100%;
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            animation: crossfade 10s infinite;
+            animation: crossfade 12s infinite;
+            transition: transform 0.5s ease;
         }
-        .slideshow img:nth-child(2) {
-            animation-delay: 5s;
+        .portfolio-card:hover .slideshow img {
+            transform: scale(1.05);
         }
+        .slideshow img:nth-child(2) { animation-delay: 6s; }
         @keyframes crossfade {
-            0%, 45%, 100% { opacity: 0; }
-            50%, 95% { opacity: 1; }
+            0%, 45%, 100% { opacity: 0; animation-timing-function: ease-in; }
+            50%, 95% { opacity: 1; animation-timing-function: ease-out;}
+        }
+
+        /* --- Parallax --- */
+        #parallax-container {
+            height: 60vh;
+            overflow: hidden;
+            position: relative;
+        }
+        #parallax-bg {
+            width: 100%;
+            height: 150%; /* Altura maior para permitir o movimento */
+            position: absolute;
+            left: 0;
+            top: -25%; /* Posição inicial */
+            background-image: url('https://iili.io/KxpaMW7.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+        }
+
+        /* --- Botão Voltar ao Topo --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: rgba(74, 222, 128, 0.8);
+            backdrop-filter: blur(5px);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background-color 0.3s;
+            z-index: 1000;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #back-to-top:hover {
+            background-color: #4ade80;
         }
     </style>
 </head>
 <body class="antialiased">
+    <!-- Cursor Customizado -->
+    <div class="custom-cursor-dot"></div>
+    <div class="custom-cursor-outline"></div>
 
-    <!-- Header (agora apenas para telemóvel) -->
-    <header class="fixed top-0 left-0 w-full z-50 py-4 glass-effect md:hidden">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 py-6 transition-all duration-300">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="z-10">
+            <a href="#hero" class="z-10 cursor-pointer">
                 <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-12 w-auto">
             </a>
-            <nav id="mobile-nav" class="flex items-center space-x-2 sm:space-x-4">
-                <a href="#sobre" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Sobre</a>
-                <a href="#servicos" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Serviços</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Portfólio</a>
-                <a href="#contato" class="text-gray-300 hover:text-white nav-link text-xs sm:text-sm">Contato</a>
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-8">
+                <a href="#sobre" class="text-gray-300 hover:text-white nav-link">Sobre</a>
+                <a href="#servicos" class="text-gray-300 hover:text-white nav-link">Serviços</a>
+                <a href="#processo" class="text-gray-300 hover:text-white nav-link">Processo</a>
+                <a href="#portfolio" class="text-gray-300 hover:text-white nav-link">Portfólio</a>
+                <a href="#contato" class="text-gray-300 hover:text-white nav-link">Contato</a>
             </nav>
+            <div class="md:hidden">
+                <!-- Mobile menu button can be added here if needed -->
+            </div>
         </div>
     </header>
 
     <main>
         <!-- Hero Section (Apenas para Desktop) -->
-        <section id="hero" class="h-screen w-full relative hidden md:flex items-center justify-center text-center">
+        <section id="hero" class="h-screen w-full relative hidden md:flex items-center justify-center text-center overflow-hidden">
             <div id="hero-canvas-container" class="absolute inset-0">
                 <canvas id="hero-canvas"></canvas>
             </div>
@@ -156,45 +279,54 @@
                 <nav class="flex flex-col items-start space-y-4 text-3xl font-bold text-gray-400">
                     <a href="#sobre" class="hero-menu-link" style="transition-delay: 100ms;">Sobre</a>
                     <a href="#servicos" class="hero-menu-link" style="transition-delay: 200ms;">Serviços</a>
-                    <a href="#portfolio" class="hero-menu-link" style="transition-delay: 300ms;">Portfólio</a>
-                    <a href="#contato" class="hero-menu-link" style="transition-delay: 400ms;">Contato</a>
+                    <a href="#processo" class="hero-menu-link" style="transition-delay: 300ms;">Processo</a>
+                    <a href="#portfolio" class="hero-menu-link" style="transition-delay: 400ms;">Portfólio</a>
+                    <a href="#contato" class="hero-menu-link" style="transition-delay: 500ms;">Contato</a>
                 </nav>
+            </div>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
             </div>
         </section>
 
         <!-- Sobre Nós -->
         <section id="sobre" class="py-20 md:py-32 bg-[#0A0A0A] section">
-            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="rounded-lg shadow-2xl mx-auto w-2/3">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1 text-center md:text-left">
+                    <h2 class="text-4xl md:text-5xl font-black text-white leading-tight">Somos a Moritz: <br>Arquitetos da Web.</h2>
+                    <p class="mt-6 text-lg text-gray-400">Diretamente de Lavras, MG, para o mundo digital. Somos um estúdio de criação apaixonado por transformar ideias em experiências web memoráveis. Combinamos design clean, tecnologia de ponta e uma estética profissional para construir sites que não apenas impressionam, mas também geram resultados.</p>
                 </div>
-                <div class="text-center md:text-left">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Somos a Moritz</h2>
-                    <p class="mt-4 text-lg text-gray-400">Diretamente de Lavras, MG, para o mundo digital. Somos um estúdio de criação apaixonado por transformar ideias em experiências web memoráveis. Combinamos design clean, tecnologia de ponta e uma estética profissional para construir sites que não apenas impressionam, mas também geram resultados.</p>
+                <div class="order-1 md:order-2">
+                    <div class="relative w-2/3 md:w-full mx-auto">
+                         <div class="absolute inset-0 bg-green-500/10 rounded-full blur-3xl"></div>
+                         <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="relative rounded-lg mx-auto">
+                    </div>
                 </div>
             </div>
         </section>
-        
-        <!-- Secção de Imagem com Paralaxe -->
-        <section id="parallax-section"></section>
-        
+                
         <!-- Serviços -->
         <section id="servicos" class="py-20 md:py-32 bg-[#111111] section">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Nossas Soluções</h2>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Oferecemos uma gama completa de serviços para garantir que seu projeto seja um sucesso.</p>
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-black text-white">Nossas Soluções Digitais</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Oferecemos uma gama completa de serviços para garantir que seu projeto seja um sucesso do início ao fim.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300 transform hover:-translate-y-2">
+                    <!-- Card 1 -->
+                    <div class="bg-[#0A0A0A] p-8 rounded-xl border border-gray-800 text-center transition-all duration-300 transform hover:-translate-y-2 hover:border-green-400 hover:shadow-2xl hover:shadow-green-500/10">
                         <h3 class="text-2xl font-bold text-white">Desenvolvimento Web</h3>
                         <p class="mt-4 text-gray-400">Criação de sites institucionais, landing pages e e-commerces totalmente responsivos e otimizados para performance.</p>
                     </div>
-                    <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300 transform hover:-translate-y-2">
+                    <!-- Card 2 -->
+                    <div class="bg-[#0A0A0A] p-8 rounded-xl border border-gray-800 text-center transition-all duration-300 transform hover:-translate-y-2 hover:border-green-400 hover:shadow-2xl hover:shadow-green-500/10">
                         <h3 class="text-2xl font-bold text-white">UI/UX Design</h3>
                         <p class="mt-4 text-gray-400">Foco na experiência do usuário, criando interfaces intuitivas, bonitas e que convertem visitantes em clientes.</p>
                     </div>
-                    <div class="bg-[#0A0A0A] p-8 rounded-lg border border-gray-800 text-center hover:border-white transition-colors duration-300 transform hover:-translate-y-2">
+                    <!-- Card 3 -->
+                    <div class="bg-[#0A0A0A] p-8 rounded-xl border border-gray-800 text-center transition-all duration-300 transform hover:-translate-y-2 hover:border-green-400 hover:shadow-2xl hover:shadow-green-500/10">
                         <h3 class="text-2xl font-bold text-white">Otimização (SEO)</h3>
                         <p class="mt-4 text-gray-400">Implementamos as melhores práticas de SEO para que seu site seja encontrado pelos motores de busca e alcance seu público.</p>
                     </div>
@@ -202,36 +334,73 @@
             </div>
         </section>
 
-        <!-- Portfólio (ATUALIZADO com Imagens em Loop) -->
-        <section id="portfolio" class="py-20 md:py-32 bg-[#0A0A0A] section">
+        <!-- Seção de Imagem com Paralaxe -->
+        <section id="parallax-container" class="section">
+            <div id="parallax-bg"></div>
+        </section>
+        
+        <!-- Nosso Processo (NOVA SEÇÃO) -->
+        <section id="processo" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Portfólio</h2>
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-black text-white">Nosso Processo Criativo</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Seguimos um caminho claro e colaborativo para garantir que cada projeto atinja a excelência.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-8 relative">
+                    <!-- Etapa 1 -->
+                    <div data-step="01" class="relative mt-12 bg-[#111111] p-8 rounded-xl border border-gray-800 process-card">
+                        <h3 class="text-xl font-bold text-white">Imersão e Estratégia</h3>
+                        <p class="mt-3 text-gray-400">Mergulhamos no seu negócio para entender seus objetivos, público e desafios. Definimos a estratégia e o escopo do projeto.</p>
+                    </div>
+                    <!-- Etapa 2 -->
+                    <div data-step="02" class="relative mt-12 bg-[#111111] p-8 rounded-xl border border-gray-800 process-card">
+                        <h3 class="text-xl font-bold text-white">Design e Prototipagem</h3>
+                        <p class="mt-3 text-gray-400">Criamos a arquitetura da informação, wireframes e um design visual impactante, focado na experiência do usuário (UX).</p>
+                    </div>
+                    <!-- Etapa 3 -->
+                    <div data-step="03" class="relative mt-12 bg-[#111111] p-8 rounded-xl border border-gray-800 process-card">
+                        <h3 class="text-xl font-bold text-white">Desenvolvimento</h3>
+                        <p class="mt-3 text-gray-400">Nossa equipe transforma o design em código limpo e eficiente, utilizando as tecnologias mais modernas do mercado.</p>
+                    </div>
+                    <!-- Etapa 4 -->
+                    <div data-step="04" class="relative mt-12 bg-[#111111] p-8 rounded-xl border border-gray-800 process-card">
+                        <h3 class="text-xl font-bold text-white">Lançamento e Suporte</h3>
+                        <p class="mt-3 text-gray-400">Realizamos testes rigorosos, lançamos o site e oferecemos suporte contínuo para garantir seu sucesso a longo prazo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfólio -->
+        <section id="portfolio" class="py-20 md:py-32 bg-[#111111] section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-black text-white">Projetos Selecionados</h2>
                     <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Conheça alguns dos projetos que tivemos o prazer de desenvolver.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-10">
+                <div class="grid md:grid-cols-2 gap-12">
                     <!-- Projeto 1: Animale -->
-                    <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
+                    <div class="bg-[#0A0A0A] rounded-xl overflow-hidden border border-gray-800 flex flex-col portfolio-card">
                         <div class="aspect-video bg-black slideshow">
                            <img src="https://iili.io/KzOwXeI.png" alt="Demonstração do site Animale 1">
                            <img src="https://iili.io/KzON724.png" alt="Demonstração do site Animale 2">
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white">Animale</h3>
-                            <p class="text-sm text-gray-400 mt-1 mb-4">E-commerce de moda e vestuário.</p>
-                            <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold text-white">Animale</h3>
+                            <p class="text-gray-400 mt-1 mb-4">E-commerce de moda e vestuário.</p>
+                            <a href="https://www.animale.com.br/" target="_blank" rel="noopener noreferrer" class="text-green-400 font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
                     <!-- Projeto 2: Maybelline -->
-                    <div class="bg-[#111111] rounded-lg overflow-hidden border border-gray-800 flex flex-col portfolio-card">
+                    <div class="bg-[#0A0A0A] rounded-xl overflow-hidden border border-gray-800 flex flex-col portfolio-card">
                          <div class="aspect-video bg-black slideshow">
                              <img src="https://iili.io/KzOerep.png" alt="Demonstração do site Maybelline 1">
                              <img src="https://iili.io/KzOUcKX.png" alt="Demonstração do site Maybelline 2">
                          </div>
-                         <div class="p-6">
-                             <h3 class="text-xl font-bold text-white">Maybelline</h3>
-                             <p class="text-sm text-gray-400 mt-1 mb-4">Site de cosméticos e beleza.</p>
-                             <a href="https://www.maybelline.com.br/" target="_blank" rel="noopener noreferrer" class="text-white font-bold hover:underline">Visitar Site &rarr;</a>
+                         <div class="p-8">
+                             <h3 class="text-2xl font-bold text-white">Maybelline</h3>
+                             <p class="text-gray-400 mt-1 mb-4">Site de cosméticos e beleza.</p>
+                             <a href="https://www.maybelline.com.br/" target="_blank" rel="noopener noreferrer" class="text-green-400 font-bold hover:underline">Visitar Site &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -239,27 +408,62 @@
         </section>
 
         <!-- Contato -->
-        <section id="contato" class="py-20 md:py-32 bg-[#111111] section">
+        <section id="contato" class="py-20 md:py-32 bg-[#0A0A0A] section">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white">Vamos Conversar?</h2>
+                <h2 class="text-4xl md:text-5xl font-black text-white">Vamos Conversar?</h2>
                 <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Estamos prontos para ouvir sobre seu próximo projeto. Entre em contato e vamos construir algo incrível juntos.</p>
-                <div class="mt-10 flex justify-center">
-                    <a href="https://wa.me/553581165843" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 bg-green-500 text-white font-bold py-4 px-8 rounded-lg text-lg cta-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.487 5.235 3.487 8.413 0 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        WhatsApp
+                <div class="mt-12 flex justify-center">
+                    <a href="https://wa.me/553581165843" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-green-500 text-white font-bold py-4 px-10 rounded-xl text-lg cta-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.487 5.235 3.487 8.413 0 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        Entrar em Contato
                     </a>
                 </div>
             </div>
         </section>
     </main>
-
+    
     <!-- Footer -->
-    <footer class="bg-[#0A0A0A] border-t border-gray-800 py-6">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <p>&copy; 2025 Moritz. Todos os direitos reservados. Feito com ❤️ em Lavras, MG.</p>
+    <footer class="bg-[#111111] border-t border-gray-800 pt-16 pb-10 section">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+                <!-- Coluna 1: Logo e Descrição -->
+                <div class="flex flex-col items-center md:items-start">
+                    <img src="https://iili.io/KxM6lEX.png" alt="Logo Moritz" class="h-16 mb-4">
+                    <p class="text-gray-400 max-w-xs">Criando experiências digitais memoráveis de Lavras, MG, para o mundo.</p>
+                </div>
+                <!-- Coluna 2: Links Rápidos -->
+                <div>
+                    <h4 class="font-bold text-white text-lg mb-4">Navegação</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#sobre" class="text-gray-400 hover:text-green-400 transition-colors">Sobre</a></li>
+                        <li><a href="#servicos" class="text-gray-400 hover:text-green-400 transition-colors">Serviços</a></li>
+                        <li><a href="#processo" class="text-gray-400 hover:text-green-400 transition-colors">Processo</a></li>
+                        <li><a href="#portfolio" class="text-gray-400 hover:text-green-400 transition-colors">Portfólio</a></li>
+                    </ul>
+                </div>
+                <!-- Coluna 3: Contato -->
+                <div>
+                    <h4 class="font-bold text-white text-lg mb-4">Contato</h4>
+                    <ul class="space-y-3">
+                        <li><a href="mailto:contato@moritz.dev" class="text-gray-400 hover:text-green-400 transition-colors">contato@moritz.dev</a></li>
+                        <li><a href="https://wa.me/553581165843" class="text-gray-400 hover:text-green-400 transition-colors">(35) 98116-5843</a></li>
+                        <li class="text-gray-400">Lavras, Minas Gerais</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 Moritz. Todos os direitos reservados. Feito com ❤️ e ☕ em Lavras, MG.</p>
+            </div>
         </div>
     </footer>
-    
+
+    <!-- Botão Voltar ao Topo -->
+    <a href="#hero" id="back-to-top" aria-label="Voltar ao topo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </a>
+        
     <!-- Three.js Library -->
     <script type="importmap">
         {
@@ -275,83 +479,145 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { FontLoader } from 'three/addons/loaders/FontLoader.js';
         import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-        
+                
         document.addEventListener('DOMContentLoaded', () => {
-            // Correção robusta do scroll ao carregar
+            // --- Configurações Iniciais e Verificações ---
             if (history.scrollRestoration) {
                 history.scrollRestoration = 'manual';
             }
-            window.addEventListener('load', () => {
-                setTimeout(() => window.scrollTo(0, 0), 1);
-            }, false);
+            window.scrollTo(0, 0);
 
-            // --- Intersection Observer Logic ---
-            const sections = document.querySelectorAll('.section');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
-            }, { threshold: 0.1 });
-            sections.forEach(section => { observer.observe(section); });
-
-            // --- Lógica de exibição para Mobile vs Desktop ---
             const isMobile = window.innerWidth <= 1024;
             const heroSection = document.getElementById('hero');
-            const sobreSection = document.getElementById('sobre');
-
             if (isMobile) {
                 heroSection.style.display = 'none';
-                sobreSection.style.paddingTop = '8rem';
-                return;
+                document.body.style.cursor = 'auto';
+                document.querySelector('.custom-cursor-dot').style.display = 'none';
+                document.querySelector('.custom-cursor-outline').style.display = 'none';
             }
+
+            // --- Observador de Interseção para Animações de Scroll ---
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { 
+                    if (entry.isIntersecting) { 
+                        entry.target.classList.add('visible'); 
+                    } 
+                });
+            }, { threshold: 0.15 });
+            sections.forEach(section => observer.observe(section));
+
+            // --- Lógica do Header que muda com o scroll ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+            
+            // --- Lógica do Botão "Voltar ao Topo" ---
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            // --- Lógica do Cursor Customizado ---
+            if (!isMobile) {
+                const cursorDot = document.querySelector('.custom-cursor-dot');
+                const cursorOutline = document.querySelector('.custom-cursor-outline');
+
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+
+                    cursorDot.style.left = `${posX}px`;
+                    cursorDot.style.top = `${posY}px`;
+
+                    cursorOutline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: "forwards" });
+                });
+                
+                document.querySelectorAll('a, button, .portfolio-card, .hero-menu-link').forEach(el => {
+                    el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-grow'));
+                    el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-grow'));
+                });
+            }
+
+            // --- Lógica do Efeito Paralaxe (via JavaScript) ---
+            const parallaxBg = document.getElementById('parallax-bg');
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.pageYOffset;
+                const parallaxContainer = document.getElementById('parallax-container');
+                const containerTop = parallaxContainer.offsetTop;
+                const containerHeight = parallaxContainer.offsetHeight;
+
+                if (scrollPosition + window.innerHeight > containerTop && scrollPosition < containerTop + containerHeight) {
+                    const movement = (scrollPosition - containerTop) * 0.3; // Ajuste a velocidade aqui
+                    parallaxBg.style.transform = `translateY(${movement}px)`;
+                }
+            });
+
+            // --- Se for mobile, interrompe a execução do Three.js ---
+            if (isMobile) return;
 
             // --- Lógica 3D (Apenas para Desktop) ---
             const heroMenu = document.getElementById('hero-menu');
             const canvasContainer = document.getElementById('hero-canvas-container');
-            let scene, camera, renderer, textMesh, controls, arrowMesh;
+            let scene, camera, renderer, textMesh, controls, arrowMesh, particles;
             const canvas = document.getElementById('hero-canvas');
             const fontLoader = new FontLoader();
-            
+                        
             let isMenuOpen = false;
             const centerPosition = new THREE.Vector3(0, 0, 0);
-            const menuPosition = new THREE.Vector3(-3, 0, 0);
+            const menuPosition = new THREE.Vector3(-3.5, 0, 0);
             const centerScale = new THREE.Vector3(1, 1, 1);
             const menuScale = new THREE.Vector3(0.8, 0.8, 0.8);
             const arrowTargetPosition = new THREE.Vector3();
+            const mouse = new THREE.Vector2();
 
             function createTextMesh(font) {
                 const textGeometry = new TextGeometry('M', {
                     font: font, size: 3.0, height: 0.5, curveSegments: 12, bevelEnabled: true,
                     bevelThickness: 0.03, bevelSize: 0.05, bevelOffset: 0, bevelSegments: 5
                 });
-                textGeometry.center();
-                
-                const frontMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.8, roughness: 0.2 });
-                const sideMaterial = new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.8, roughness: 0.2 });
-                const materials = [frontMaterial, sideMaterial];
-                textMesh = new THREE.Mesh(textGeometry, materials);
+                textGeometry.center();                                
+                const frontMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.9, roughness: 0.2 });
+                const sideMaterial = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8, roughness: 0.4 });
+                textMesh = new THREE.Mesh(textGeometry, [frontMaterial, sideMaterial]);
                 scene.add(textMesh);
             }
 
-            function createArrow() {
-                const shape = new THREE.Shape();
-                shape.moveTo(0, 0.1); shape.lineTo(0.2, 0); shape.lineTo(0, -0.1); shape.lineTo(0, 0.1);
-                const geometry = new THREE.ShapeGeometry(shape);
-                const material = new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false });
-                arrowMesh = new THREE.Mesh(geometry, material);
-                arrowMesh.position.set(-1.5, 0, 0.1);
-                arrowMesh.visible = false;
-                arrowMesh.renderOrder = 999;
-                scene.add(arrowMesh);
+            function createParticles() {
+                const particleCount = 5000;
+                const positions = new Float32Array(particleCount * 3);
+                for (let i = 0; i < particleCount * 3; i++) {
+                    positions[i] = (Math.random() - 0.5) * 20;
+                }
+                const particlesGeometry = new THREE.BufferGeometry();
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const particlesMaterial = new THREE.PointsMaterial({
+                    color: 0x555555,
+                    size: 0.02,
+                    blending: THREE.AdditiveBlending,
+                    transparent: true
+                });
+                particles = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particles);
             }
 
             function initThreeJS() {
                 scene = new THREE.Scene();
-                const fov = 75;
-                const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-                const near = 0.1;
-                const far = 1000;
-                camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+                camera = new THREE.PerspectiveCamera(75, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
                 camera.position.z = 5;
-            
+                            
                 renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
                 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -359,19 +625,23 @@
                 controls = new OrbitControls(camera, renderer.domElement);
                 controls.enableDamping = true; controls.dampingFactor = 0.05;
                 controls.enablePan = false; controls.enableZoom = false;
-                controls.autoRotate = true; controls.autoRotateSpeed = 0.2;
-                controls.enableRotate = true;
+                controls.autoRotate = true; controls.autoRotateSpeed = 0.3;
+                controls.minPolarAngle = Math.PI / 2.5;
+                controls.maxPolarAngle = Math.PI / 2.5;
 
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
                 scene.add(ambientLight);
-                const pointLight = new THREE.PointLight(0xffffff, 1.0);
-                pointLight.position.set(2, 4, 5);
+                const pointLight = new THREE.PointLight(0x4ade80, 2.0, 100);
+                pointLight.position.set(5, 5, 5);
                 scene.add(pointLight);
-                
+                const pointLight2 = new THREE.PointLight(0xffffff, 1.0, 100);
+                pointLight2.position.set(-5, -5, 5);
+                scene.add(pointLight2);
+                                
                 const customFontUrl = 'https://files.catbox.moe/jvsqsr.json';
                 fontLoader.load(customFontUrl, createTextMesh);
-
-                createArrow();
+                
+                createParticles();
 
                 heroSection.addEventListener('mouseenter', () => {
                     isMenuOpen = true;
@@ -384,17 +654,9 @@
                     heroMenu.classList.remove('active');
                 });
                 
-                const heroNavLinks = document.querySelectorAll('.hero-menu-link');
-                const menuLinkPositions = [1.3, 0.45, -0.4, -1.25];
-
-                heroNavLinks.forEach((link, index) => {
-                    link.addEventListener('mouseenter', () => {
-                        arrowMesh.visible = true;
-                        arrowTargetPosition.y = menuLinkPositions[index];
-                    });
-                });
-                heroMenu.addEventListener('mouseleave', () => {
-                     arrowMesh.visible = false;
+                window.addEventListener('mousemove', (event) => {
+                    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
                 });
 
                 window.addEventListener('resize', onWindowResize, false);
@@ -417,20 +679,23 @@
                     const targetScale = isMenuOpen ? menuScale : centerScale;
                     textMesh.position.lerp(targetPosition, 0.08);
                     textMesh.scale.lerp(targetScale, 0.08);
-                }
-                if (arrowMesh) {
-                    arrowTargetPosition.x = textMesh.position.x + 1.8;
-                    arrowMesh.position.lerp(arrowTargetPosition, 0.1);
-                }
 
+                    // Efeito sutil de movimento com o mouse
+                    if(!isMenuOpen){
+                        textMesh.rotation.y += (mouse.x * 0.2 - textMesh.rotation.y) * 0.02;
+                        textMesh.rotation.x += (-mouse.y * 0.2 - textMesh.rotation.x) * 0.02;
+                    }
+                }
+                if (particles) {
+                    particles.rotation.y += 0.0005;
+                }
+                
                 controls.update();
                 renderer.render(scene, camera);
             }
-
+            
             initThreeJS();
         });
     </script>
-
 </body>
 </html>
-
